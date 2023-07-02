@@ -8,7 +8,7 @@
 	<parent>
 		<artifactId>multipart-spring-graphql-parent</artifactId>
 		<groupId>name.nkonev.multipart-spring-graphql</groupId>
-		<version>0.10.5</version>
+		<version>0.10.6-SNAPSHOT</version>
 	</parent>
 
     <dependencyManagement>
