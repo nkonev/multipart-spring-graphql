@@ -105,16 +105,11 @@
 	</pluginRepositories>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2
-			</url>
-		</repository>
-	</distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 	<build>
 		<plugins>
@@ -173,10 +168,7 @@
 				<executions>
 					<execution>
 						<id>default-deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
+						<phase>none</phase>
 					</execution>
 				</executions>
 			</plugin>
@@ -200,7 +192,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
