@@ -4,7 +4,7 @@
 
 	<groupId>name.nkonev.multipart-spring-graphql</groupId>
 	<artifactId>multipart-spring-graphql-parent</artifactId>
-	<version>0.10.5-SNAPSHOT</version>
+	<version>0.10.5</version>
 	<name>multipart-spring-graphql parent project</name>
 	<description>Multipart Spring GraphQL</description>
 	<packaging>pom</packaging>
@@ -14,7 +14,7 @@
 		<connection>scm:git:git://github.com/nkonev/multipart-spring-graphql.git</connection>
 		<developerConnection>scm:git:git@github.com:nkonev/multipart-spring-graphql.git</developerConnection>
 		<url>https://github.com/nkonev/multipart-spring-graphql</url>
-		<tag>HEAD</tag>
+		<tag>0.10.5</tag>
 	</scm>
 
 	<licenses>
