@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'nkonev/r2dbc-migrate'
+    if: github.repository == 'nkonev/multipart-spring-graphql'
     runs-on: ubuntu-22.04
     strategy:
       matrix:
