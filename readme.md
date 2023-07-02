@@ -6,7 +6,7 @@
 ```xml
 <dependency>
   <groupId>name.nkonev.multipart-spring-graphql</groupId>
-  <artifactId>r2dbc-migrate-spring-boot-starter</artifactId>
+  <artifactId>multipart-spring-graphql-spring-boot</artifactId>
   <version>VERSION</version>
 </dependency>
 ```
