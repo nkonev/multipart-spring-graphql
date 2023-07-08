@@ -10,4 +10,3 @@
   <version>VERSION</version>
 </dependency>
 ```
-

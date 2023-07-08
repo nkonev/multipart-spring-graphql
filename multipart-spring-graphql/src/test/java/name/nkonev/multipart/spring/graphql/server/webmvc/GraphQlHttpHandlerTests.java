@@ -8,7 +8,6 @@ import name.nkonev.multipart.spring.graphql.server.utils.GraphQlSetup;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.graphql.server.webmvc.GraphQlHttpHandler;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 import static name.nkonev.multipart.spring.graphql.client.MultipartBodyCreator.createFilePartsAndMapping;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class WebGraphQlHandlerTests {
+public class GraphQlHttpHandlerTests {
 
     private static final List<HttpMessageConverter<?>> MESSAGE_READERS =
             Collections.singletonList(new MappingJackson2HttpMessageConverter());

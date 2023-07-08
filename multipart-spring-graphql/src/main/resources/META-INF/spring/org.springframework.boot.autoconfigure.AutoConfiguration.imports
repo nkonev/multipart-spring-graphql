@@ -1,0 +1,3 @@
+name.nkonev.multipart.springboot.MultipartGraphQlWebFluxAutoconfiguration
+name.nkonev.multipart.springboot.MultipartGraphQlWebMvcAutoconfiguration
+name.nkonev.multipart.springboot.UploadSchemaAutoconfiguration

@@ -45,7 +45,7 @@ public class MultipartGraphQlHttpHandler {
     private static final ParameterizedTypeReference<Map<String, List<String>>> LIST_PARAMETERIZED_TYPE_REF =
             new ParameterizedTypeReference<Map<String, List<String>>>() {};
 
-    private static final List<MediaType> SUPPORTED_MEDIA_TYPES =
+    public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
             Arrays.asList(MediaType.APPLICATION_GRAPHQL, MediaType.APPLICATION_JSON);
 
     private final IdGenerator idGenerator = new AlternativeJdkIdGenerator();
