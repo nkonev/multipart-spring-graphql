@@ -14,7 +14,7 @@ import org.springframework.graphql.execution.GraphQlSource;
 @ConditionalOnProperty(value = "multipart.springboot.inject-upload-scalar.enabled", matchIfMissing = true)
 @AutoConfiguration
 @AutoConfigureBefore(GraphQlAutoConfiguration.class)
-public class UploadSchemaAutoconfiguration {
+public class SchemaAutoconfiguration {
     @Bean
     public AddUploadScalarGraphQlSourceBuilderCustomizer addUploadScalarGraphQlSourceBuilderCustomizer() {
         return new AddUploadScalarGraphQlSourceBuilderCustomizer();
