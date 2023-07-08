@@ -1,4 +1,4 @@
-package name.nkonev.multipart.springboot;
+package name.nkonev.multipart.springboot.graphql;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.schema.GraphQLScalarType;

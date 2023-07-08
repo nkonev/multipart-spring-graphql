@@ -1,4 +1,4 @@
-package name.nkonev.multipart.springboot;
+package name.nkonev.multipart.springboot.graphql;
 
 import org.springframework.boot.autoconfigure.AbstractDependsOnBeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
