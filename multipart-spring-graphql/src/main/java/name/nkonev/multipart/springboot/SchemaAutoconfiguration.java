@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.graphql.execution.GraphQlSource;
 
-@ConditionalOnProperty(value = "multipart.springboot.inject-upload-scalar.enabled", matchIfMissing = true)
+@ConditionalOnProperty(value = "multipart.springboot.patch-schema", matchIfMissing = true)
 @AutoConfiguration
 @AutoConfigureBefore(GraphQlAutoConfiguration.class)
 public class SchemaAutoconfiguration {
