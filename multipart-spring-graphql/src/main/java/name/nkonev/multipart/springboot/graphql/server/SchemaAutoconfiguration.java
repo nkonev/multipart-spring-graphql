@@ -1,4 +1,4 @@
-package name.nkonev.multipart.springboot.graphql;
+package name.nkonev.multipart.springboot.graphql.server;
 
 import org.springframework.boot.autoconfigure.AbstractDependsOnBeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -13,7 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.graphql.execution.GraphQlSource;
 
 @ConditionalOnWebApplication
-@ConditionalOnProperty(value = "multipart.springboot.patch-schema", matchIfMissing = true)
+@ConditionalOnProperty(value = "multipart.springboot.patch-schema.enabled", matchIfMissing = true)
 @AutoConfiguration
 @AutoConfigureBefore(GraphQlAutoConfiguration.class)
 public class SchemaAutoconfiguration {

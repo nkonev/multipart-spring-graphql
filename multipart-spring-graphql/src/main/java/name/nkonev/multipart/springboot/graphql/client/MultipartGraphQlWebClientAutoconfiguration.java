@@ -1,4 +1,4 @@
-package name.nkonev.multipart.springboot.graphql;
+package name.nkonev.multipart.springboot.graphql.client;
 
 import name.nkonev.multipart.spring.graphql.client.MultipartGraphQlWebClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
