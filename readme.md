@@ -1,5 +1,7 @@
 # Multipart Spring GraphQL
 
+Adds [missing](https://github.com/spring-projects/spring-graphql/issues/69) multipart support.
+
 Before using you need to see
 * This [comment](https://github.com/spring-projects/spring-graphql/pull/430#issuecomment-1476186878)
 * This [explanation](https://www.apollographql.com/blog/backend/file-uploads/file-upload-best-practices/)
