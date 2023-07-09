@@ -22,5 +22,4 @@ Before using you need to see
 | multipart-spring-graphql | Java | Spring Boot        | Example                                                         |
 |--------------------------|------|--------------------|-----------------------------------------------------------------|
 | 0.10.x                   | 8+   | Spring Boot 2.7.x  | https://github.com/nkonev/multipart-graphql-demo/tree/0.10.x    |
-| ------------------------ | -----| ------------------ | --------------------------------------------------------------- |
 | 1.0.x                    | 17+  | Spring Boot 3.0.x  | https://github.com/nkonev/multipart-graphql-demo/tree/1.0.x     |
