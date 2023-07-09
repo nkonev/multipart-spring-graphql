@@ -3,6 +3,7 @@ package name.nkonev.multipart.spring.graphql.server.webmvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.schema.GraphQLScalarType;
+import jakarta.servlet.ServletException;
 import name.nkonev.multipart.spring.graphql.coercing.webmvc.UploadCoercing;
 import name.nkonev.multipart.spring.graphql.server.utils.GraphQlSetup;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import org.springframework.web.servlet.function.AsyncServerResponse;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;

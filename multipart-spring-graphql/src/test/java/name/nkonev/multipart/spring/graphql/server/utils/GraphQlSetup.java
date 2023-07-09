@@ -55,8 +55,6 @@ public class GraphQlSetup {
 
 	private final List<WebGraphQlInterceptor> interceptors = new ArrayList<>();
 
-	private final List<ThreadLocalAccessor> accessors = new ArrayList<>();
-
     private Decoder<?> jsonDecoder = new Jackson2JsonDecoder();
 
     private GenericHttpMessageConverter genericHttpMessageConverter = new MappingJackson2HttpMessageConverter();
@@ -146,24 +144,15 @@ public class GraphQlSetup {
 
 	// WebGraphQlSetup...
 
-//	public WebGraphQlSetup interceptor(WebGraphQlInterceptor... interceptors) {
-//		this.interceptors.addAll(Arrays.asList(interceptors));
-//		return this;
-//	}
-//
-//	@Override
-//	public WebGraphQlSetup threadLocalAccessor(@Nullable ThreadLocalAccessor accessor) {
-//		if (accessor != null) {
-//			this.accessors.add(accessor);
-//		}
-//		return this;
-//	}
-//
+	public GraphQlSetup interceptor(WebGraphQlInterceptor... interceptors) {
+		this.interceptors.addAll(Arrays.asList(interceptors));
+		return this;
+	}
+
 	public WebGraphQlHandler toWebGraphQlHandler() {
 		ExecutionGraphQlService service = toGraphQlService();
 		return WebGraphQlHandler.builder(service)
 				.interceptors(this.interceptors)
-				.threadLocalAccessors(this.accessors)
 				.build();
 	}
 

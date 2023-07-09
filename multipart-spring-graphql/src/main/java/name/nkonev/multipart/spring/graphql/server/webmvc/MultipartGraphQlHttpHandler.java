@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.HashMap;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 import name.nkonev.multipart.spring.graphql.server.support.MultipartVariableMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
