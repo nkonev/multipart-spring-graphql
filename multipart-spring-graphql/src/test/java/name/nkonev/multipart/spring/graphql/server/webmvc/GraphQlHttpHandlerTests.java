@@ -36,11 +36,13 @@ public class GraphQlHttpHandlerTests {
     @Test
     void shouldPassFile() throws Exception {
         MultipartGraphQlHttpHandler handler = GraphQlSetup.schemaContent(
-                        "type Query { ping: String } \n" +
-                                "scalar Upload\n" +
-                                "type Mutation {\n" +
-                                "    fileUpload(fileInput: Upload!): String!\n" +
-                                "}")
+                """
+                    type Query { ping: String }
+                    scalar Upload
+                    type Mutation {
+                        fileUpload(fileInput: Upload!): String!
+                    }
+                """)
                 .mutationFetcher("fileUpload", (env) -> ((MultipartFile) env.getVariables().get("fileInput")).getOriginalFilename())
                 .runtimeWiring(builder -> builder.scalar(GraphQLScalarType.newScalar()
                         .name("Upload")
@@ -48,9 +50,12 @@ public class GraphQlHttpHandlerTests {
                         .build()))
                 .toHttpHandlerMultipart();
         MockHttpServletRequest servletRequest = createMultipartServletRequest(
-                "mutation FileUpload($fileInput: Upload!) " +
-                        "{fileUpload(fileInput: $fileInput) }",
-                MediaType.APPLICATION_GRAPHQL_VALUE,
+                """
+                    mutation FileUpload($fileInput: Upload!) {
+                        fileUpload(fileInput: $fileInput)
+                    }
+                """,
+                MediaType.APPLICATION_JSON_VALUE,
                 Collections.singletonMap("fileInput", new ClassPathResource("/foo.txt"))
         );
 
@@ -63,11 +68,13 @@ public class GraphQlHttpHandlerTests {
     @Test
     void shouldPassListOfFiles() throws Exception {
         MultipartGraphQlHttpHandler handler = GraphQlSetup.schemaContent(
-                        "type Query { ping: String } \n" +
-                                "scalar Upload\n" +
-                                "type Mutation {\n" +
-                                "    multipleFilesUpload(multipleFileInputs: [Upload!]!): [String!]!\n" +
-                                "}")
+                """
+                    type Query { ping: String }\s
+                    scalar Upload
+                    type Mutation {
+                        multipleFilesUpload(multipleFileInputs: [Upload!]!): [String!]!
+                    }
+                """)
                 .mutationFetcher("multipleFilesUpload", (env) -> ((Collection<MultipartFile>) env.getVariables().get("multipleFileInputs")).stream().map(multipartFile -> multipartFile.getOriginalFilename()).collect(Collectors.toList()))
                 .runtimeWiring(builder -> builder.scalar(GraphQLScalarType.newScalar()
                         .name("Upload")
@@ -80,9 +87,12 @@ public class GraphQlHttpHandlerTests {
         resources.add(new ClassPathResource("/bar.txt"));
 
         MockHttpServletRequest servletRequest = createMultipartServletRequest(
-                "mutation MultipleFilesUpload($multipleFileInputs: [Upload!]!) " +
-                        "{multipleFilesUpload(multipleFileInputs: $multipleFileInputs) }",
-                MediaType.APPLICATION_GRAPHQL_VALUE,
+            """
+                    mutation MultipleFilesUpload($multipleFileInputs: [Upload!]!) {
+                        multipleFilesUpload(multipleFileInputs: $multipleFileInputs)
+                    }
+                """,
+                MediaType.APPLICATION_JSON_VALUE,
                 Collections.singletonMap("multipleFileInputs", resources)
         );
 
@@ -116,20 +126,6 @@ public class GraphQlHttpHandlerTests {
         Resource resource = (Resource) objectResource;
         try {
             return new MockMultipartFile(partName, resource.getFilename(), null, resource.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private byte[] getFileByteArray(Resource resource) {
-        try {
-            byte[] targetArray = new byte[(int)resource.getFile().length()];
-            try(InputStream inputStream = resource.getInputStream()) {
-                inputStream.read(targetArray);
-                return targetArray;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

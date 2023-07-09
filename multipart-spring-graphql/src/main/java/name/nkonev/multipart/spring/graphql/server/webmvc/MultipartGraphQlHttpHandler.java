@@ -35,6 +35,8 @@ import org.springframework.util.IdGenerator;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
+import static org.springframework.http.MediaType.APPLICATION_GRAPHQL_RESPONSE;
+
 public class MultipartGraphQlHttpHandler {
 
     private static final Log logger = LogFactory.getLog(MultipartGraphQlHttpHandler.class);
@@ -46,7 +48,7 @@ public class MultipartGraphQlHttpHandler {
             new ParameterizedTypeReference<Map<String, List<String>>>() {};
 
     public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
-            Arrays.asList(MediaType.APPLICATION_GRAPHQL, MediaType.APPLICATION_JSON);
+            Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL);
 
     private final IdGenerator idGenerator = new AlternativeJdkIdGenerator();
 

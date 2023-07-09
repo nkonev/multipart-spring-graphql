@@ -42,11 +42,13 @@ public class GraphQlHttpHandlerTests {
     @Test
     void shouldPassFile() {
         MultipartGraphQlHttpHandler handler = GraphQlSetup.schemaContent(
-                        "type Query { ping: String } \n" +
-                                "scalar Upload\n" +
-                                "type Mutation {\n" +
-                                "    fileUpload(fileInput: Upload!): String!\n" +
-                                "}")
+                """
+                    type Query { ping: String }
+                    scalar Upload
+                    type Mutation {
+                        fileUpload(fileInput: Upload!): String!
+                    }
+                """)
                 .mutationFetcher("fileUpload", (env) -> ((FilePart) env.getVariables().get("fileInput")).filename())
                 .runtimeWiring(builder -> builder.scalar(GraphQLScalarType.newScalar()
                         .name("Upload")
@@ -59,8 +61,11 @@ public class GraphQlHttpHandlerTests {
                 .build();
 
         MockServerHttpResponse httpResponse = handleMultipartRequest(
-                httpRequest, handler, "mutation FileUpload($fileInput: Upload!) " +
-                        "{fileUpload(fileInput: $fileInput) }",
+                httpRequest, handler, """
+                    mutation FileUpload($fileInput: Upload!)  {
+                        fileUpload(fileInput: $fileInput)
+                    }
+                """,
                 Collections.emptyMap(),
                 Collections.singletonMap("fileInput", new ClassPathResource("/foo.txt"))
         );
@@ -72,11 +77,13 @@ public class GraphQlHttpHandlerTests {
     @Test
     void shouldPassListOfFiles() {
         MultipartGraphQlHttpHandler handler = GraphQlSetup.schemaContent(
-                        "type Query { ping: String } \n" +
-                                "scalar Upload\n" +
-                                "type Mutation {\n" +
-                                "    multipleFilesUpload(multipleFileInputs: [Upload!]!): [String!]!\n" +
-                                "}")
+                """
+                    type Query { ping: String }
+                    scalar Upload
+                    type Mutation {
+                        multipleFilesUpload(multipleFileInputs: [Upload!]!): [String!]!
+                    }
+                """)
                 .mutationFetcher("multipleFilesUpload", (env) -> ((Collection<FilePart>) env.getVariables().get("multipleFileInputs")).stream().map(FilePart::filename).collect(Collectors.toList()))
                 .runtimeWiring(builder -> builder.scalar(GraphQLScalarType.newScalar()
                         .name("Upload")
@@ -92,8 +99,11 @@ public class GraphQlHttpHandlerTests {
         resources.add(new ClassPathResource("/foo.txt"));
         resources.add(new ClassPathResource("/bar.txt"));
         MockServerHttpResponse httpResponse = handleMultipartRequest(
-                httpRequest, handler, "mutation MultipleFilesUpload($multipleFileInputs: [Upload!]!) " +
-                        "{multipleFilesUpload(multipleFileInputs: $multipleFileInputs) }",
+                httpRequest, handler, """
+                    mutation MultipleFilesUpload($multipleFileInputs: [Upload!]!) {
+                        multipleFilesUpload(multipleFileInputs: $multipleFileInputs)
+                    }
+                """,
                 Collections.emptyMap(),
                 Collections.singletonMap("multipleFileInputs", resources)
         );
