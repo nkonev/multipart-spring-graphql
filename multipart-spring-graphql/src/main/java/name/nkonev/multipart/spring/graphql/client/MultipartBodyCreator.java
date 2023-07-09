@@ -9,20 +9,19 @@ import java.util.function.BiConsumer;
 
 public final class MultipartBodyCreator {
 
-//    public static MultiValueMap<String, ?> convertRequestToMultipartData(GraphQlRequest request) {
-//        MultipartClientGraphQlRequest multipartRequest = (MultipartClientGraphQlRequest) request;
-//        MultipartBodyBuilder builder = new MultipartBodyBuilder();
-//
-//        Map<String, List<String>> partMappings = new HashMap<>();
-//        Map<String, Object> operations = multipartRequest.toMap();
-//        Map<String, Object> variables = new HashMap<>(multipartRequest.getVariables());
-//        createFilePartsAndMapping(multipartRequest.getFileVariables(), variables, partMappings, builder::part);
-//        operations.put("variables", variables);
-//        builder.part("operations", operations);
-//
-//        builder.part("map", partMappings);
-//        return builder.build();
-//    }
+    public static MultiValueMap<String, ?> convertRequestToMultipartData(MultipartClientGraphQlRequest multipartRequest) {
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+
+        Map<String, List<String>> partMappings = new HashMap<>();
+        Map<String, Object> operations = multipartRequest.toMap();
+        Map<String, Object> variables = new HashMap<>(multipartRequest.getVariables());
+        createFilePartsAndMapping(multipartRequest.getFileVariables(), variables, partMappings, builder::part);
+        operations.put("variables", variables);
+        builder.part("operations", operations);
+
+        builder.part("map", partMappings);
+        return builder.build();
+    }
 
     public static void createFilePartsAndMapping(
             Map<String, ?> fileVariables,
