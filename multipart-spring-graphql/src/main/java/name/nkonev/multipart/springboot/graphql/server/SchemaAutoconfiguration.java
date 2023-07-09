@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.graphql.GraphQlAutoConfiguration;
 import org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.graphql.execution.GraphQlSource;
 
@@ -37,6 +38,6 @@ class AddUploadScalarGraphQlSourceBuilderCustomizer implements GraphQlSourceBuil
 
     @Override
     public void customize(GraphQlSource.SchemaResourceBuilder builder) {
-        builder.schemaResources(new ClassPathResource("multipart-spring-graphql/upload.graphqls"));
+        builder.schemaResources(new ByteArrayResource("scalar Upload".getBytes()));
     }
 }
