@@ -1,0 +1,13 @@
+type Query {
+    ping: Boolean!
+}
+
+type Mutation {
+    multiFileUpload(files: [Upload!]): [FileUploadResult!]!
+}
+
+type FileUploadResult {
+  id: String!
+}
+
+
