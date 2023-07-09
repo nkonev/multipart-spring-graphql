@@ -26,7 +26,7 @@ public class UploadCoercing implements Coercing<FilePart, Object> {
 
     @Override
     public FilePart parseLiteral(Object input) throws CoercingParseLiteralException {
-        throw new CoercingParseLiteralException("Parsing literal of 'MultipartFile' is not supported");
+        throw new CoercingParseLiteralException("Parsing literal of 'FilePart' is not supported");
     }
 }
 
