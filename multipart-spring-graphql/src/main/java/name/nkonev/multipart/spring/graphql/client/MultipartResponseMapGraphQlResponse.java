@@ -15,20 +15,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ResponseMapGraphQlResponse extends AbstractGraphQlResponse {
+public class MultipartResponseMapGraphQlResponse extends AbstractGraphQlResponse {
 
 	private final Map<String, Object> responseMap;
 
 	private final List<ResponseError> errors;
 
 
-	ResponseMapGraphQlResponse(Map<String, Object> responseMap) {
+	MultipartResponseMapGraphQlResponse(Map<String, Object> responseMap) {
 		Assert.notNull(responseMap, "'responseMap' is required");
 		this.responseMap = responseMap;
 		this.errors = wrapErrors(responseMap);
 	}
 
-	protected ResponseMapGraphQlResponse(GraphQlResponse response) {
+	protected MultipartResponseMapGraphQlResponse(GraphQlResponse response) {
 		Assert.notNull(response, "'GraphQlResponse' is required");
 		this.responseMap = response.toMap();
 		this.errors =  response.getErrors();
@@ -71,8 +71,8 @@ public class ResponseMapGraphQlResponse extends AbstractGraphQlResponse {
 
 	@Override
 	public boolean equals(Object other) {
-		return (other instanceof ResponseMapGraphQlResponse &&
-				this.responseMap.equals(((ResponseMapGraphQlResponse) other).responseMap));
+		return (other instanceof MultipartResponseMapGraphQlResponse &&
+				this.responseMap.equals(((MultipartResponseMapGraphQlResponse) other).responseMap));
 	}
 
 	@Override

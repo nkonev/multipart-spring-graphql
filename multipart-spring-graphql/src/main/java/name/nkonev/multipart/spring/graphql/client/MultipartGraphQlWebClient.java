@@ -31,6 +31,6 @@ public class MultipartGraphQlWebClient {
                 .body(BodyInserters.fromMultipartData(convertRequestToMultipartData(request)))
                 .retrieve()
                 .bodyToMono(MAP_TYPE)
-                .map(ResponseMapGraphQlResponse::new);
+                .map(MultipartResponseMapGraphQlResponse::new);
     }
 }
