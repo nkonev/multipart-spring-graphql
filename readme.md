@@ -19,9 +19,7 @@ Before using you need to see
 
 # Compatibility
 
-| multipart-spring-graphql | Java    | Spring Boot       |
-|--------------------------|---------|-------------------|
-| 0.10.x+                  | Java 8+ | Spring Boot 2.7.x |
+| multipart-spring-graphql | Java    | Spring Boot       | Example                                                      |
+|--------------------------|---------|-------------------|--------------------------------------------------------------|
+| 0.10.x+                  | Java 8+ | Spring Boot 2.7.x | https://github.com/nkonev/multipart-graphql-demo/tree/0.10.x |
 
-# Example
-https://github.com/nkonev/multipart-graphql-demo
