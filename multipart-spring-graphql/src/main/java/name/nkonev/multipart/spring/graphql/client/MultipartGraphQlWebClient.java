@@ -19,7 +19,8 @@ public class MultipartGraphQlWebClient {
     private final WebClient webClient;
 
     private static final ParameterizedTypeReference<Map<String, Object>> MAP_TYPE =
-            new ParameterizedTypeReference<Map<String, Object>>() {};
+            new ParameterizedTypeReference<Map<String, Object>>() {
+            };
 
     public MultipartGraphQlWebClient(WebClient webClient) {
         Assert.notNull(webClient, "WebClient is required");
@@ -27,30 +28,24 @@ public class MultipartGraphQlWebClient {
     }
 
     public Mono<GraphQlResponse> executeFileUpload(MultipartClientGraphQlRequest request) {
-        return this.webClient.post()
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL)
-                .body(BodyInserters.fromMultipartData(convertRequestToMultipartData(request)))
-                .retrieve()
-                .bodyToMono(MAP_TYPE)
-                .map(MultipartResponseMapGraphQlResponse::new);
+        return makeMultipartRequest(this.webClient.post(), request).cast(GraphQlResponse.class);
     }
 
     public Mono<GraphQlResponse> executeFileUpload(String url, MultipartClientGraphQlRequest request) {
-        return this.webClient.post().uri(url)
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL)
-                .body(BodyInserters.fromMultipartData(convertRequestToMultipartData(request)))
-                .retrieve()
-                .bodyToMono(MAP_TYPE)
-                .map(MultipartResponseMapGraphQlResponse::new);
+        return makeMultipartRequest(this.webClient.post().uri(url), request).cast(GraphQlResponse.class);
     }
 
     public Mono<GraphQlResponse> executeFileUpload(String url, HttpHeaders headers, MultipartClientGraphQlRequest request) {
-        return this.webClient.post()
+        return makeMultipartRequest(
+            this.webClient.post()
                 .uri(url)
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .headers(httpHeaders -> httpHeaders.addAll(headers)),
+            request
+        ).cast(GraphQlResponse.class);
+    }
+
+    private Mono<MultipartResponseMapGraphQlResponse> makeMultipartRequest(WebClient.RequestBodySpec spec, MultipartClientGraphQlRequest request) {
+        return spec.contentType(MediaType.MULTIPART_FORM_DATA)
                 .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL)
                 .body(BodyInserters.fromMultipartData(convertRequestToMultipartData(request)))
                 .retrieve()
