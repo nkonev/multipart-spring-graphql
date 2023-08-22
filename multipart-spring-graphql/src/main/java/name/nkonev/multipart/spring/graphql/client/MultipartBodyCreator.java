@@ -1,6 +1,5 @@
 package name.nkonev.multipart.spring.graphql.client;
 
-import org.springframework.graphql.GraphQlRequest;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.util.MultiValueMap;
 
@@ -24,10 +23,10 @@ public final class MultipartBodyCreator {
     }
 
     public static void createFilePartsAndMapping(
-            Map<String, ?> fileVariables,
-            Map<String, Object> variables,
-            Map<String, List<String>> partMappings,
-            BiConsumer<String, Object> partConsumer) {
+        Map<String, ?> fileVariables,
+        Map<String, Object> variables,
+        Map<String, List<String>> partMappings,
+        BiConsumer<String, Object> partConsumer) {
         int partNumber = 0;
         for (Map.Entry<String, ?> entry : fileVariables.entrySet()) {
             Object resource = entry.getValue();
@@ -35,12 +34,12 @@ public final class MultipartBodyCreator {
             if (resource instanceof Collection) {
                 List<Object> placeholders = new ArrayList<>();
                 int inMappingNumber = 0;
-                for (Object fileResourceItem: (Collection)resource) {
+                for (Object fileResourceItem : (Collection) resource) {
                     placeholders.add(null);
                     String partName = "uploadPart" + partNumber;
                     partConsumer.accept(partName, fileResourceItem);
                     partMappings.put(partName, Collections.singletonList(
-                            "variables." + variableName + "." + inMappingNumber
+                        "variables." + variableName + "." + inMappingNumber
                     ));
                     partNumber++;
                     inMappingNumber++;

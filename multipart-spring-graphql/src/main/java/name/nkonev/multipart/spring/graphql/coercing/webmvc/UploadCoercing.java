@@ -30,8 +30,8 @@ public class UploadCoercing implements Coercing<MultipartFile, Object> {
             return (MultipartFile) input;
         }
         throw new CoercingParseValueException(
-                String.format("Expected a 'MultipartFile' like object but was '%s'.",
-                        input != null ? input.getClass() : null)
+            String.format("Expected a 'MultipartFile' like object but was '%s'.",
+                input != null ? input.getClass() : null)
         );
     }
 

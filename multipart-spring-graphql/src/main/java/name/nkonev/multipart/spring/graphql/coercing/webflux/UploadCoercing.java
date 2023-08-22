@@ -32,8 +32,8 @@ public class UploadCoercing implements Coercing<FilePart, Object> {
             return (FilePart) input;
         }
         throw new CoercingParseValueException(
-                String.format("Expected 'FilePart' like object but was '%s'.",
-                        input != null ? input.getClass() : null)
+            String.format("Expected 'FilePart' like object but was '%s'.",
+                input != null ? input.getClass() : null)
         );
     }
 

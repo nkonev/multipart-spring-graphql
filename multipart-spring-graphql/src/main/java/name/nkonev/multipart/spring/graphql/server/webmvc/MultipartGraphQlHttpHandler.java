@@ -42,13 +42,15 @@ public class MultipartGraphQlHttpHandler {
     private static final Log logger = LogFactory.getLog(MultipartGraphQlHttpHandler.class);
 
     private static final ParameterizedTypeReference<Map<String, Object>> MAP_PARAMETERIZED_TYPE_REF =
-            new ParameterizedTypeReference<Map<String, Object>>() {};
+        new ParameterizedTypeReference<Map<String, Object>>() {
+        };
 
     private static final ParameterizedTypeReference<Map<String, List<String>>> LIST_PARAMETERIZED_TYPE_REF =
-            new ParameterizedTypeReference<Map<String, List<String>>>() {};
+        new ParameterizedTypeReference<Map<String, List<String>>>() {
+        };
 
     public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
-            Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL);
+        Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL);
 
     private final IdGenerator idGenerator = new AlternativeJdkIdGenerator();
 
@@ -67,9 +69,9 @@ public class MultipartGraphQlHttpHandler {
         HttpServletRequest httpServletRequest = serverRequest.servletRequest();
 
         Map<String, Object> inputQuery = Optional.ofNullable(this.<Map<String, Object>>deserializePart(
-                httpServletRequest,
-                "operations",
-                MAP_PARAMETERIZED_TYPE_REF.getType()
+            httpServletRequest,
+            "operations",
+            MAP_PARAMETERIZED_TYPE_REF.getType()
         )).orElse(new HashMap<>());
 
         final Map<String, Object> queryVariables = getFromMapOrEmpty(inputQuery, "variables");
@@ -78,9 +80,9 @@ public class MultipartGraphQlHttpHandler {
         Map<String, MultipartFile> fileParams = readMultipartFiles(httpServletRequest);
 
         Map<String, List<String>> fileMappings = Optional.ofNullable(this.<Map<String, List<String>>>deserializePart(
-                httpServletRequest,
-                "map",
-                LIST_PARAMETERIZED_TYPE_REF.getType()
+            httpServletRequest,
+            "map",
+            LIST_PARAMETERIZED_TYPE_REF.getType()
         )).orElse(new HashMap<>());
 
         fileMappings.forEach((String fileKey, List<String> objectPaths) -> {
@@ -88,9 +90,9 @@ public class MultipartGraphQlHttpHandler {
             if (file != null) {
                 objectPaths.forEach((String objectPath) -> {
                     MultipartVariableMapper.mapVariable(
-                            objectPath,
-                            queryVariables,
-                            file
+                        objectPath,
+                        queryVariables,
+                        file
                     );
                 });
             }
@@ -106,24 +108,24 @@ public class MultipartGraphQlHttpHandler {
         body.put("extensions", extensions);
 
         WebGraphQlRequest graphQlRequest = new WebGraphQlRequest(
-                serverRequest.uri(), serverRequest.headers().asHttpHeaders(),
-                body,
-                this.idGenerator.generateId().toString(), LocaleContextHolder.getLocale());
+            serverRequest.uri(), serverRequest.headers().asHttpHeaders(),
+            body,
+            this.idGenerator.generateId().toString(), LocaleContextHolder.getLocale());
 
         if (logger.isDebugEnabled()) {
             logger.debug("Executing: " + graphQlRequest);
         }
 
         Mono<ServerResponse> responseMono = this.graphQlHandler.handleRequest(graphQlRequest)
-                .map(response -> {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Execution complete");
-                    }
-                    ServerResponse.BodyBuilder builder = ServerResponse.ok();
-                    builder.headers(headers -> headers.putAll(response.getResponseHeaders()));
-                    builder.contentType(selectResponseMediaType(serverRequest));
-                    return builder.body(response.toMap());
-                });
+            .map(response -> {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Execution complete");
+                }
+                ServerResponse.BodyBuilder builder = ServerResponse.ok();
+                builder.headers(headers -> headers.putAll(response.getResponseHeaders()));
+                builder.contentType(selectResponseMediaType(serverRequest));
+                return builder.body(response.toMap());
+            });
 
         return ServerResponse.async(responseMono);
     }
@@ -164,7 +166,7 @@ public class MultipartGraphQlHttpHandler {
     @SuppressWarnings("unchecked")
     private Map<String, Object> getFromMapOrEmpty(Map<String, Object> input, String key) {
         if (input.containsKey(key)) {
-            return (Map<String, Object>)input.get(key);
+            return (Map<String, Object>) input.get(key);
         } else {
             return new HashMap<>();
         }
@@ -172,7 +174,7 @@ public class MultipartGraphQlHttpHandler {
 
     private static Map<String, MultipartFile> readMultipartFiles(HttpServletRequest httpServletRequest) {
         Assert.isInstanceOf(MultipartHttpServletRequest.class, httpServletRequest,
-                "Request should be of type MultipartHttpServletRequest");
+            "Request should be of type MultipartHttpServletRequest");
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
         return multipartHttpServletRequest.getFileMap();
     }

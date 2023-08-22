@@ -18,7 +18,8 @@ public class MultipartGraphQlWebClient {
     private final WebClient webClient;
 
     private static final ParameterizedTypeReference<Map<String, Object>> MAP_TYPE =
-            new ParameterizedTypeReference<Map<String, Object>>() {};
+        new ParameterizedTypeReference<Map<String, Object>>() {
+        };
 
     public MultipartGraphQlWebClient(WebClient webClient) {
         Assert.notNull(webClient, "WebClient is required");
@@ -44,11 +45,11 @@ public class MultipartGraphQlWebClient {
 
     private Mono<MultipartResponseMapGraphQlResponse> makeMultipartRequest(WebClient.RequestBodySpec spec, MultipartClientGraphQlRequest request) {
         return spec.contentType(MediaType.MULTIPART_FORM_DATA)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromMultipartData(convertRequestToMultipartData(request)))
-                .retrieve()
-                .bodyToMono(MAP_TYPE)
-                .map(MultipartResponseMapGraphQlResponse::new);
+            .accept(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromMultipartData(convertRequestToMultipartData(request)))
+            .retrieve()
+            .bodyToMono(MAP_TYPE)
+            .map(MultipartResponseMapGraphQlResponse::new);
     }
 
 }

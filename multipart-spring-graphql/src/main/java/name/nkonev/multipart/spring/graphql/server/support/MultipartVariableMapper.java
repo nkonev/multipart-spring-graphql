@@ -13,29 +13,29 @@ public class MultipartVariableMapper {
     private static final Pattern PERIOD = Pattern.compile("\\.");
 
     private static final MultipartVariableMapper.Mapper<Map<String, Object>> MAP_MAPPER =
-            new MultipartVariableMapper.Mapper<Map<String, Object>>() {
-                @Override
-                public <P> Object set(Map<String, Object> location, String target, P value) {
-                    return location.put(target, value);
-                }
+        new MultipartVariableMapper.Mapper<Map<String, Object>>() {
+            @Override
+            public <P> Object set(Map<String, Object> location, String target, P value) {
+                return location.put(target, value);
+            }
 
-                @Override
-                public Object recurse(Map<String, Object> location, String target) {
-                    return location.get(target);
-                }
-            };
+            @Override
+            public Object recurse(Map<String, Object> location, String target) {
+                return location.get(target);
+            }
+        };
     private static final MultipartVariableMapper.Mapper<List<Object>> LIST_MAPPER =
-            new MultipartVariableMapper.Mapper<List<Object>>() {
-                @Override
-                public <P> Object set(List<Object> location, String target, P value) {
-                    return location.set(Integer.parseInt(target), value);
-                }
+        new MultipartVariableMapper.Mapper<List<Object>>() {
+            @Override
+            public <P> Object set(List<Object> location, String target, P value) {
+                return location.set(Integer.parseInt(target), value);
+            }
 
-                @Override
-                public Object recurse(List<Object> location, String target) {
-                    return location.get(Integer.parseInt(target));
-                }
-            };
+            @Override
+            public Object recurse(List<Object> location, String target) {
+                return location.get(Integer.parseInt(target));
+            }
+        };
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static <P> void mapVariable(String objectPath, Map<String, Object> variables, P file) {
@@ -60,14 +60,14 @@ public class MultipartVariableMapper {
                 currentLocation = mapper.recurse(currentLocation, segmentName);
                 if (null == currentLocation) {
                     throw new RuntimeException(
-                            "found null intermediate value when trying to map " + objectPath);
+                        "found null intermediate value when trying to map " + objectPath);
                 }
             }
         }
     }
 
     private static MultipartVariableMapper.Mapper<?> determineMapper(
-            Object currentLocation, String objectPath, String segmentName) {
+        Object currentLocation, String objectPath, String segmentName) {
         if (currentLocation instanceof Map) {
             return MAP_MAPPER;
         } else if (currentLocation instanceof List) {
@@ -75,7 +75,7 @@ public class MultipartVariableMapper {
         }
 
         throw new RuntimeException(
-                "expected a map or list at " + segmentName + " when trying to map " + objectPath);
+            "expected a map or list at " + segmentName + " when trying to map " + objectPath);
     }
 
     interface Mapper<T> {

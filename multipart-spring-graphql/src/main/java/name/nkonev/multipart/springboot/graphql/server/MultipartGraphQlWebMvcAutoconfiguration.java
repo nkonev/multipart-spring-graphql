@@ -30,9 +30,9 @@ public class MultipartGraphQlWebMvcAutoconfiguration {
     @Bean
     public RuntimeWiringConfigurer runtimeWiringConfigurerUpload() {
         GraphQLScalarType uploadScalar = GraphQLScalarType.newScalar()
-                .name("Upload")
-                .coercing(new UploadCoercing())
-                .build();
+            .name("Upload")
+            .coercing(new UploadCoercing())
+            .build();
 
         return wiringBuilder -> wiringBuilder.scalar(uploadScalar);
     }
@@ -48,7 +48,7 @@ public class MultipartGraphQlWebMvcAutoconfiguration {
         RouterFunctions.Builder builder = RouterFunctions.route();
         MultipartGraphQlHttpHandler graphqlMultipartHandler = new MultipartGraphQlHttpHandler(webGraphQlHandler, new MappingJackson2HttpMessageConverter(objectMapper));
         builder = builder.POST(path, RequestPredicates.contentType(MULTIPART_FORM_DATA)
-                .and(RequestPredicates.accept(SUPPORTED_MEDIA_TYPES.toArray(new MediaType[]{}))), graphqlMultipartHandler::handleMultipartRequest);
+            .and(RequestPredicates.accept(SUPPORTED_MEDIA_TYPES.toArray(new MediaType[]{}))), graphqlMultipartHandler::handleMultipartRequest);
         return builder.build();
     }
 }

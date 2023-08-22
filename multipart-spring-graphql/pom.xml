@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>multipart-spring-graphql</artifactId>
-	<description>Multipart Spring GraphQL Spring Boot integration</description>
+    <artifactId>multipart-spring-graphql</artifactId>
+    <description>Multipart Spring GraphQL Spring Boot integration</description>
 
-	<parent>
-		<artifactId>multipart-spring-graphql-parent</artifactId>
-		<groupId>name.nkonev.multipart-spring-graphql</groupId>
-		<version>1.1.4-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <artifactId>multipart-spring-graphql-parent</artifactId>
+        <groupId>name.nkonev.multipart-spring-graphql</groupId>
+        <version>1.1.4-SNAPSHOT</version>
+    </parent>
 
     <dependencies>
         <dependency>
@@ -33,19 +34,19 @@
         </dependency>
     </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven.surefire.plugin.version}</version>
-				<configuration>
-					<argLine>-Xmx256m</argLine>
-					<forkCount>1</forkCount>
-					<parallel>classes</parallel>
-					<reuseForks>false</reuseForks>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <argLine>-Xmx256m</argLine>
+                    <forkCount>1</forkCount>
+                    <parallel>classes</parallel>
+                    <reuseForks>false</reuseForks>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
