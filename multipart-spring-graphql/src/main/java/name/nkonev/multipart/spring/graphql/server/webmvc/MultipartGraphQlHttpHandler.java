@@ -34,6 +34,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.IdGenerator;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
+import org.springframework.web.util.WebUtils;
 
 import static org.springframework.http.MediaType.APPLICATION_GRAPHQL_RESPONSE;
 
@@ -172,10 +173,9 @@ public class MultipartGraphQlHttpHandler {
         }
     }
 
-    private static Map<String, MultipartFile> readMultipartFiles(HttpServletRequest httpServletRequest) {
-        Assert.isInstanceOf(MultipartHttpServletRequest.class, httpServletRequest,
-            "Request should be of type MultipartHttpServletRequest");
-        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) httpServletRequest;
+    private static Map<String, MultipartFile> readMultipartFiles(HttpServletRequest httpServletRequest) {      
+        MultipartHttpServletRequest multipartHttpServletRequest = WebUtils.getNativeRequest(httpServletRequest, MultipartHttpServletRequest.class);
+        Assert.notNull(httpServletRequest,  "Request should be of type MultipartHttpServletRequest");
         return multipartHttpServletRequest.getFileMap();
     }
 
