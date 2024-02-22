@@ -9,17 +9,27 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.graphql.GraphQlResponse;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AutoconfigurationTest {
 
@@ -43,6 +53,7 @@ public class AutoconfigurationTest {
 
     @Configuration
     @EnableAutoConfiguration
+    @AutoConfigureMockMvc
     public static class SimpleApp {
 
         @Autowired
@@ -91,6 +102,45 @@ public class AutoconfigurationTest {
         Assertions.assertTrue(Set.of("foo.txt", "bar.txt").containsAll(listOfFileNames));
     }
 
+    @Test
+    public void testWithMockMvc() throws Exception {
+        var builder = new SpringApplicationBuilder(SimpleApp.class, MyController.class);
+        var ctx = builder.build().run();
+        var mockMvc = ctx.getBean(MockMvc.class);
+
+        var operations = """
+            { "query" : "mutation FileNUpload($files: [Upload!]) { multiFileUpload(files: $files) { id } }",
+              "variables": { "files": [null, null] } }
+            """;
+
+        var variables = """
+            { "0": ["variables.files.0"], "1": ["variables.files.1"] }
+            """;
+        
+        final var resource1 = new ClassPathResource("/foo.txt");
+        final var resource2 = new ClassPathResource("/bar.txt");
+        final var filePart1 = new MockMultipartFile("0", "foo.txt", "application/octet-stream", resource1.getContentAsByteArray());
+        final var filePart2 = new MockMultipartFile("1", "bar.txt", "application/octet-stream", resource2.getContentAsByteArray());
+        final var operationsPart = new MockPart("operations", operations.getBytes());
+        final var variablesPart = new MockPart("map", variables.getBytes());
+
+        final var asyncMvcResult = mockMvc.perform(MockMvcRequestBuilders
+            .multipart("/graphql")
+            .file(filePart1)
+            .file(filePart2)
+            .part(operationsPart)
+            .part(variablesPart)
+            .accept(MediaType.APPLICATION_GRAPHQL_RESPONSE_VALUE))
+            .andReturn();
+
+        mockMvc.perform(asyncDispatch(asyncMvcResult))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data.multiFileUpload").isNotEmpty())
+            .andExpect(jsonPath("$.data.multiFileUpload[0].id").value("foo.txt"))
+            .andExpect(jsonPath("$.data.multiFileUpload[1].id").value("bar.txt"));
+
+    }
 }
 
 class FileUploadResult {
