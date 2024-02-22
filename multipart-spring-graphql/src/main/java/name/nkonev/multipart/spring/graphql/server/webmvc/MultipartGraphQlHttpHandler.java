@@ -173,9 +173,9 @@ public class MultipartGraphQlHttpHandler {
         }
     }
 
-    private static Map<String, MultipartFile> readMultipartFiles(HttpServletRequest httpServletRequest) {      
+    private static Map<String, MultipartFile> readMultipartFiles(HttpServletRequest httpServletRequest) {
         MultipartHttpServletRequest multipartHttpServletRequest = WebUtils.getNativeRequest(httpServletRequest, MultipartHttpServletRequest.class);
-        Assert.notNull(httpServletRequest,  "Request should be of type MultipartHttpServletRequest");
+        Assert.notNull(multipartHttpServletRequest,  "Request should be of type MultipartHttpServletRequest");
         return multipartHttpServletRequest.getFileMap();
     }
 
