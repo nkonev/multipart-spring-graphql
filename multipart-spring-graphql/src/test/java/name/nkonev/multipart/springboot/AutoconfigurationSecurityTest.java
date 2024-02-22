@@ -3,8 +3,9 @@ package name.nkonev.multipart.springboot;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,7 @@ import java.util.Collection;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,7 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AutoconfigurationSecurityTest {
 
     @AutoConfigureMockMvc
-    @SpringBootApplication
+    @SpringBootConfiguration
+    @EnableAutoConfiguration
     public static class MyConfig {
 
     }
@@ -112,7 +115,7 @@ public class AutoconfigurationSecurityTest {
 
 
 
-        mockMvc.perform(
+        final var asyncMvcResult = mockMvc.perform(
             MockMvcRequestBuilders
                 .multipart("/graphql")
                 .file(filePart1)
@@ -122,8 +125,9 @@ public class AutoconfigurationSecurityTest {
                 .accept(MediaType.APPLICATION_GRAPHQL_RESPONSE_VALUE)
                 .with(csrf())
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password"))
-            )
+            ).andReturn();
 
+        mockMvc.perform(asyncDispatch(asyncMvcResult))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.multiFileUpload").isNotEmpty())
