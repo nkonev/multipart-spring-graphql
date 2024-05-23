@@ -105,7 +105,8 @@ public class MultipartGraphQlHttpHandler {
                         body.put("extensions", extensions);
 
                         WebGraphQlRequest graphQlRequest = new WebGraphQlRequest(
-                            serverRequest.uri(), serverRequest.headers().asHttpHeaders(),
+                            serverRequest.uri(), serverRequest.headers().asHttpHeaders(), serverRequest.cookies(),
+                            serverRequest.remoteAddress().orElse(null), serverRequest.attributes(),
                             body,
                             serverRequest.exchange().getRequest().getId(),
                             serverRequest.exchange().getLocaleContext().getLocale());

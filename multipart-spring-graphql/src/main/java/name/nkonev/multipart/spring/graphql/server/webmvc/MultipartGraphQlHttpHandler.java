@@ -11,15 +11,17 @@ import java.util.HashMap;
 
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 import name.nkonev.multipart.spring.graphql.server.support.MultipartVariableMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.GenericHttpMessageConverter;
-import org.springframework.util.StringUtils;
+import org.springframework.util.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import reactor.core.publisher.Mono;
@@ -29,9 +31,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.graphql.server.WebGraphQlHandler;
 import org.springframework.graphql.server.WebGraphQlRequest;
 import org.springframework.http.MediaType;
-import org.springframework.util.AlternativeJdkIdGenerator;
-import org.springframework.util.Assert;
-import org.springframework.util.IdGenerator;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 import org.springframework.web.util.WebUtils;
@@ -108,8 +107,16 @@ public class MultipartGraphQlHttpHandler {
         body.put("variables", queryVariables);
         body.put("extensions", extensions);
 
+        MultiValueMap<String, Cookie> source = serverRequest.cookies();
+        MultiValueMap<String, HttpCookie> target = new LinkedMultiValueMap<>(source.size());
+        source.values().forEach((cookieList) -> cookieList.forEach((cookie) -> {
+            HttpCookie httpCookie = new HttpCookie(cookie.getName(), cookie.getValue());
+            target.add(cookie.getName(), httpCookie);
+        }));
+
         WebGraphQlRequest graphQlRequest = new WebGraphQlRequest(
-            serverRequest.uri(), serverRequest.headers().asHttpHeaders(),
+            serverRequest.uri(), serverRequest.headers().asHttpHeaders(), target,
+            serverRequest.remoteAddress().orElse(null), serverRequest.attributes(),
             body,
             this.idGenerator.generateId().toString(), LocaleContextHolder.getLocale());
 
