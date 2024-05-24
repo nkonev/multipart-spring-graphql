@@ -1,5 +1,7 @@
 package name.nkonev.multipart.spring.graphql.client;
 
+import name.nkonev.multipart.spring.graphql.client.support.MultipartBodyCreator;
+import name.nkonev.multipart.spring.graphql.client.support.MultipartClientGraphQlRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;

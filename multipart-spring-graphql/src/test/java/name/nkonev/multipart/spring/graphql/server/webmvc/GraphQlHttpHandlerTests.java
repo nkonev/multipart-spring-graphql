@@ -19,11 +19,10 @@ import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static name.nkonev.multipart.spring.graphql.client.MultipartBodyCreator.createFilePartsAndMapping;
+import static name.nkonev.multipart.spring.graphql.client.support.MultipartBodyCreator.createFilePartsAndMapping;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GraphQlHttpHandlerTests {

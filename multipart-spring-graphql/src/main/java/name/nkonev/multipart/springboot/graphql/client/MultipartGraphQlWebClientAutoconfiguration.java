@@ -1,10 +1,8 @@
 package name.nkonev.multipart.springboot.graphql.client;
 
-import name.nkonev.multipart.spring.graphql.client.MultipartGraphQlWebClient;
+import name.nkonev.multipart.spring.graphql.client.webflux.MultipartGraphQlWebClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
 

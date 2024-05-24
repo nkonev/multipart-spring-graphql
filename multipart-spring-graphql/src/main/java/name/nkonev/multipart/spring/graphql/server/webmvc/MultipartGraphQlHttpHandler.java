@@ -65,7 +65,7 @@ public class MultipartGraphQlHttpHandler {
         this.genericHttpMessageConverter = genericHttpMessageConverter;
     }
 
-    public ServerResponse handleMultipartRequest(ServerRequest serverRequest) throws ServletException {
+    public ServerResponse handleMultipartRequest(ServerRequest serverRequest) {
         HttpServletRequest httpServletRequest = serverRequest.servletRequest();
 
         Map<String, Object> inputQuery = Optional.ofNullable(this.<Map<String, Object>>deserializePart(

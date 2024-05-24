@@ -5,6 +5,11 @@
     "description": "Enable creation of MultipartGraphQlWebClient"
   },
   {
+    "name": "multipart.springboot.rest.client.enabled",
+    "type": "boolean",
+    "description": "Enable creation of MultipartGraphQlRestClient"
+  },
+  {
     "name": "multipart.springboot.webflux.server.enabled",
     "type": "boolean",
     "description": "Enable registering WebFlux-specific RouterFunction and UploadCoercing"
@@ -23,6 +28,17 @@
 ],"hints": [
   {
     "name": "multipart.springboot.webflux.client.enabled",
+    "values": [
+      {
+        "value": "true"
+      },
+      {
+        "value": "false"
+      }
+    ]
+  },
+  {
+    "name": "multipart.springboot.rest.client.enabled",
     "values": [
       {
         "value": "true"

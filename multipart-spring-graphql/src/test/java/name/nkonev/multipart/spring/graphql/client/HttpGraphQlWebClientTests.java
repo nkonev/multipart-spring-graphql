@@ -1,6 +1,8 @@
 package name.nkonev.multipart.spring.graphql.client;
 
+import name.nkonev.multipart.spring.graphql.client.support.MultipartClientGraphQlRequest;
 import name.nkonev.multipart.spring.graphql.client.utils.AbstractBuilderSetup;
+import name.nkonev.multipart.spring.graphql.client.webflux.MultipartGraphQlWebClient;
 import name.nkonev.multipart.spring.graphql.server.webflux.MultipartGraphQlHttpHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -23,7 +25,7 @@ import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
-public class HttpGraphQlClientTests {
+public class HttpGraphQlWebClientTests {
 
     private static final String DOCUMENT = "{ Mutation }";
 

@@ -1,5 +1,7 @@
-package name.nkonev.multipart.spring.graphql.client;
+package name.nkonev.multipart.spring.graphql.client.webflux;
 
+import name.nkonev.multipart.spring.graphql.client.support.MultipartClientGraphQlRequest;
+import name.nkonev.multipart.spring.graphql.client.support.MultipartResponseMapGraphQlResponse;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.graphql.GraphQlResponse;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-import static name.nkonev.multipart.spring.graphql.client.MultipartBodyCreator.convertRequestToMultipartData;
+import static name.nkonev.multipart.spring.graphql.client.support.MultipartBodyCreator.convertRequestToMultipartData;
 
 public class MultipartGraphQlWebClient {
 

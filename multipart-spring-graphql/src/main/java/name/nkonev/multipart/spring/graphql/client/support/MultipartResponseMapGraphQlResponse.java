@@ -1,4 +1,4 @@
-package name.nkonev.multipart.spring.graphql.client;
+package name.nkonev.multipart.spring.graphql.client.support;
 
 import graphql.ErrorClassification;
 import graphql.GraphQLError;
@@ -22,13 +22,13 @@ public class MultipartResponseMapGraphQlResponse extends AbstractGraphQlResponse
     private final List<ResponseError> errors;
 
 
-    MultipartResponseMapGraphQlResponse(Map<String, Object> responseMap) {
+    public MultipartResponseMapGraphQlResponse(Map<String, Object> responseMap) {
         Assert.notNull(responseMap, "'responseMap' is required");
         this.responseMap = responseMap;
         this.errors = wrapErrors(responseMap);
     }
 
-    protected MultipartResponseMapGraphQlResponse(GraphQlResponse response) {
+    public MultipartResponseMapGraphQlResponse(GraphQlResponse response) {
         Assert.notNull(response, "'GraphQlResponse' is required");
         this.responseMap = response.toMap();
         this.errors = response.getErrors();

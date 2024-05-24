@@ -1,4 +1,4 @@
-package name.nkonev.multipart.spring.graphql.client;
+package name.nkonev.multipart.spring.graphql.client.support;
 
 
 import org.springframework.graphql.client.ClientGraphQlRequest;

@@ -2,3 +2,4 @@ name.nkonev.multipart.springboot.graphql.server.MultipartGraphQlWebFluxAutoconfi
 name.nkonev.multipart.springboot.graphql.server.MultipartGraphQlWebMvcAutoconfiguration
 name.nkonev.multipart.springboot.graphql.server.SchemaAutoconfiguration
 name.nkonev.multipart.springboot.graphql.client.MultipartGraphQlWebClientAutoconfiguration
+name.nkonev.multipart.springboot.graphql.client.MultipartGraphQlRestClientAutoconfiguration
