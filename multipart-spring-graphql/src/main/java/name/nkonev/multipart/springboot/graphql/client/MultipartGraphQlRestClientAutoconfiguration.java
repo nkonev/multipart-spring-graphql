@@ -10,7 +10,6 @@ import org.springframework.web.client.RestClient;
 
 @AutoConfiguration
 @AutoConfigureAfter(RestClientAutoConfiguration.class)
-@ConditionalOnClass(RestClient.class)
 @ConditionalOnBean(RestClient.Builder.class)
 @ConditionalOnProperty(value = "multipart.springboot.rest.client.enabled", matchIfMissing = true)
 public class MultipartGraphQlRestClientAutoconfiguration {

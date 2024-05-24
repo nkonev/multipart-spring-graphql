@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @AutoConfiguration
 @AutoConfigureAfter(WebClientAutoConfiguration.class)
-@ConditionalOnClass(WebClient.class)
 @ConditionalOnBean(WebClient.Builder.class)
 @ConditionalOnProperty(value = "multipart.springboot.webflux.client.enabled", matchIfMissing = true)
 public class MultipartGraphQlWebClientAutoconfiguration {
