@@ -4,9 +4,12 @@ package name.nkonev.multipart.spring.graphql.client.support;
 import org.springframework.graphql.client.ClientGraphQlRequest;
 import org.springframework.graphql.support.DefaultGraphQlRequest;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.Collections.emptyMap;
 
 public class MultipartClientGraphQlRequest extends DefaultGraphQlRequest implements ClientGraphQlRequest {
 
@@ -34,4 +37,53 @@ public class MultipartClientGraphQlRequest extends DefaultGraphQlRequest impleme
         return this.attributes;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String document;
+        private String operationName;
+        private Map<String, Object> variables = emptyMap();
+        private Map<String, Object> extensions = emptyMap();
+        private Map<String, Object> attributes = emptyMap();
+        private Map<String, Object> fileVariables = emptyMap();
+
+        public Builder withDocument(String document) {
+            this.document = document;
+            return this;
+        }
+        public Builder withOperationName(String operationName) {
+            this.operationName = operationName;
+            return this;
+        }
+        public Builder withVariables(Map<String, Object> variables) {
+            this.variables = variables;
+            return this;
+        }
+        public Builder withExtensions(Map<String, Object> extensions) {
+            this.extensions = extensions;
+            return this;
+        }
+        public Builder withAttributes(Map<String, Object> attributes) {
+            this.attributes = attributes;
+            return this;
+        }
+        public Builder withFileVariables(Map<String, Object> fileVariables) {
+            this.fileVariables = fileVariables;
+            return this;
+        }
+
+        public MultipartClientGraphQlRequest build() {
+            Assert.notNull(this.document, "document must not be null");
+            return new MultipartClientGraphQlRequest(
+                this.document,
+                this.operationName,
+                this.variables,
+                this.extensions,
+                this.attributes,
+                this.fileVariables
+            );
+        }
+    }
 }
