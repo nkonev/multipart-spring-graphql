@@ -26,3 +26,4 @@ Before using you need to see
 | 1.1.x                    | 17+  | Spring Boot 3.1.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.1.x  |
 | 1.2.x                    | 17+  | Spring Boot 3.2.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.2.x  |
 | 1.3.x                    | 17+  | Spring Boot 3.3.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.3.x  |
+| 1.4.x                    | 17+  | Spring Boot 3.3.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.4.x  |
