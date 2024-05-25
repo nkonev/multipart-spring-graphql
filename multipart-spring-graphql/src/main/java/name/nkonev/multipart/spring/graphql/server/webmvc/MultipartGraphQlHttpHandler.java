@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 
 import jakarta.servlet.ServletException;
@@ -65,7 +66,7 @@ public class MultipartGraphQlHttpHandler {
         this.genericHttpMessageConverter = genericHttpMessageConverter;
     }
 
-    public ServerResponse handleMultipartRequest(ServerRequest serverRequest) {
+    public ServerResponse handleMultipartRequest(ServerRequest serverRequest) throws Exception {
         HttpServletRequest httpServletRequest = serverRequest.servletRequest();
 
         Map<String, Object> inputQuery = Optional.ofNullable(this.<Map<String, Object>>deserializePart(
@@ -124,7 +125,7 @@ public class MultipartGraphQlHttpHandler {
             logger.debug("Executing: " + graphQlRequest);
         }
 
-        Mono<ServerResponse> responseMono = this.graphQlHandler.handleRequest(graphQlRequest)
+        var future = this.graphQlHandler.handleRequest(graphQlRequest)
             .map(response -> {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Execution complete");
@@ -133,9 +134,21 @@ public class MultipartGraphQlHttpHandler {
                 builder.headers(headers -> headers.putAll(response.getResponseHeaders()));
                 builder.contentType(selectResponseMediaType(serverRequest));
                 return builder.body(response.toMap());
-            });
+            }).toFuture();
 
-        return ServerResponse.async(responseMono);
+        if (future.isDone()) {
+            try {
+                return future.get();
+            }
+            catch (ExecutionException ex) {
+                throw new ServletException(ex.getCause());
+            }
+            catch (InterruptedException ex) {
+                throw new ServletException(ex);
+            }
+        }
+
+        return ServerResponse.async(future);
     }
 
     private static class JsonMultipartInputMessage implements HttpInputMessage {

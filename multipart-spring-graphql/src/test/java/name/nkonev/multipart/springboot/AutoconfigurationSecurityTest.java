@@ -34,7 +34,6 @@ import java.util.Collection;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -115,7 +114,7 @@ public class AutoconfigurationSecurityTest {
 
 
 
-        final var asyncMvcResult = mockMvc.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders
                 .multipart("/graphql")
                 .file(filePart1)
@@ -125,9 +124,7 @@ public class AutoconfigurationSecurityTest {
                 .accept(MediaType.APPLICATION_GRAPHQL_RESPONSE_VALUE)
                 .with(csrf())
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic("user", "password"))
-            ).andReturn();
-
-        mockMvc.perform(asyncDispatch(asyncMvcResult))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.multiFileUpload").isNotEmpty())

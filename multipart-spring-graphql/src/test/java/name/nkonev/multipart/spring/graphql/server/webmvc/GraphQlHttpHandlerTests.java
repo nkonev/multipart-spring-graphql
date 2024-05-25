@@ -15,6 +15,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.mock.web.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.function.AsyncServerResponse;
+import org.springframework.web.servlet.function.EntityResponse;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
@@ -139,10 +140,10 @@ public class GraphQlHttpHandlerTests {
     }
 
     private MockHttpServletResponse handleMultipartRequest(
-            MockHttpServletRequest servletRequest, MultipartGraphQlHttpHandler handler) throws ServletException, IOException {
+            MockHttpServletRequest servletRequest, MultipartGraphQlHttpHandler handler) throws Exception {
 
         ServerRequest request = ServerRequest.create(servletRequest, MESSAGE_READERS);
-        ServerResponse response = ((AsyncServerResponse) handler.handleMultipartRequest(request)).block();
+        ServerResponse response = handler.handleMultipartRequest(request);
 
         MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         response.writeTo(servletRequest, servletResponse, new DefaultContext());
