@@ -144,7 +144,9 @@ public class GraphQlHttpHandlerTests {
 
         ServerRequest request = ServerRequest.create(servletRequest, MESSAGE_READERS);
         ServerResponse response = handler.handleMultipartRequest(request);
-
+        if (response instanceof AsyncServerResponse asyncResponse) {
+            asyncResponse.block();
+        }
         MockHttpServletResponse servletResponse = new MockHttpServletResponse();
         response.writeTo(servletRequest, servletResponse, new DefaultContext());
         return servletResponse;
