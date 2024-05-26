@@ -6,6 +6,100 @@ Before using you need to see
 * This [comment](https://github.com/spring-projects/spring-graphql/pull/430#issuecomment-1476186878)
 * This [explanation](https://www.apollographql.com/blog/backend/file-uploads/file-upload-best-practices/)
 
+## Features
+1. `FilePart` arguments  for `Webflux` reactive [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webflux)
+```java
+ @Controller
+public class FileController {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
+
+    @MutationMapping(name = "fileUpload")
+    public FileUploadResult uploadFile(@Argument FilePart file) {
+
+        logger.info("Upload file: name={}", file.filename());
+
+        return new FileUploadResult(UUID.randomUUID());
+    }
+
+    @MutationMapping(name = "multiFileUpload")
+    public Collection<FileUploadResult> uploadMultiFiles(@Argument Collection<FilePart> files) {
+
+        for (FilePart filePart: files) {
+            logger.info("Upload file: name={}", filePart.filename());
+        }
+        return List.of(new FileUploadResult(UUID.randomUUID()));
+    }
+
+}
+```
+
+2. `MultipartFile` arguments for `WebMVC` servlet [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webmvc)
+```java
+@Controller
+public class FileController {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
+
+    @MutationMapping(name = "fileUpload")
+    public FileUploadResult uploadFile(@Argument MultipartFile file) {
+        logger.info("Upload file: name={}", file.getOriginalFilename());
+
+        return new FileUploadResult(UUID.randomUUID());
+    }
+
+    @MutationMapping(name = "multiFileUpload")
+    public Collection<FileUploadResult> uploadMultiFiles(@Argument Collection<MultipartFile> files) {
+        for( MultipartFile file : files) {
+            logger.info("Upload file: name={}", file.getOriginalFilename());
+        }
+        return List.of(new FileUploadResult(UUID.randomUUID()));
+    }
+
+}
+```
+
+3. `WebClient`-based [client](https://github.com/nkonev/multipart-graphql-demo/tree/master/client-webflux)
+```java
+    @Autowired
+    private MultipartGraphQlWebClient httpGraphQlClient;
+
+    @Override
+    public void run(String... args) {
+        var doc = """
+                mutation FileNUpload($files: [Upload!]) {multiFileUpload(files: $files){id}}
+                """;
+        Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt")));
+
+        var request = MultipartClientGraphQlRequest.builder()
+            .withDocument(doc)
+            .withFileVariables(fileVariables)
+            .build();
+        var response = httpGraphQlClient.executeFileUpload("http://localhost:8899/graphql", request).block();
+        LOGGER.info("Response is {}", response);
+    }
+```
+
+4. `RestClient`-based [client](https://github.com/nkonev/multipart-graphql-demo/tree/master/client-webmvc)
+```java
+    @Autowired
+    private MultipartGraphQlRestClient httpGraphQlClient;
+    
+    @Override
+    public void run(String... args) {
+        var doc = """
+            mutation FileNUpload($files: [Upload!]) {multiFileUpload(files: $files){id}}
+            """;
+        java.util.Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt")));
+        var request = MultipartClientGraphQlRequest.builder()
+            .withDocument(doc)
+            .withFileVariables(fileVariables)
+            .build();
+        var response = httpGraphQlClient.executeFileUpload("http://localhost:8889/graphql", request);
+        LOGGER.info("Response is {}", response);
+    } 
+```
+
 ## Download
 
 ### Spring Boot Starter
