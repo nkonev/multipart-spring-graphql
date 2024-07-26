@@ -9,14 +9,13 @@ Before using you need to see
 ## Features
 1. `FilePart` arguments  for `Webflux` reactive [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webflux)
 ```java
- @Controller
+@Controller
 public class FileController {
 
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     @MutationMapping(name = "fileUpload")
     public FileUploadResult uploadFile(@Argument FilePart file) {
-
         logger.info("Upload file: name={}", file.filename());
 
         return new FileUploadResult(UUID.randomUUID());
@@ -24,8 +23,7 @@ public class FileController {
 
     @MutationMapping(name = "multiFileUpload")
     public Collection<FileUploadResult> uploadMultiFiles(@Argument Collection<FilePart> files) {
-
-        for (FilePart filePart: files) {
+        for (FilePart filePart : files) {
             logger.info("Upload file: name={}", filePart.filename());
         }
         return List.of(new FileUploadResult(UUID.randomUUID()));
@@ -50,7 +48,7 @@ public class FileController {
 
     @MutationMapping(name = "multiFileUpload")
     public Collection<FileUploadResult> uploadMultiFiles(@Argument Collection<MultipartFile> files) {
-        for( MultipartFile file : files) {
+        for (MultipartFile file : files) {
             logger.info("Upload file: name={}", file.getOriginalFilename());
         }
         return List.of(new FileUploadResult(UUID.randomUUID()));
@@ -67,9 +65,16 @@ public class FileController {
     @Override
     public void run(String... args) {
         var doc = """
-                mutation FileNUpload($files: [Upload!]) {multiFileUpload(files: $files){id}}
+                mutation FileNUpload($files: [Upload!]) {
+                    multiFileUpload(files: $files){
+                        id
+                    }
+                }
                 """;
-        Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt")));
+        Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(
+            new ClassPathResource("/foo.txt"), 
+            new ClassPathResource("/bar.txt")
+        ));
 
         var request = MultipartClientGraphQlRequest.builder()
             .withDocument(doc)
@@ -88,9 +93,16 @@ public class FileController {
     @Override
     public void run(String... args) {
         var doc = """
-            mutation FileNUpload($files: [Upload!]) {multiFileUpload(files: $files){id}}
+            mutation FileNUpload($files: [Upload!]) {
+                multiFileUpload(files: $files){
+                    id
+                }
+            }
             """;
-        java.util.Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt")));
+        Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(
+            new ClassPathResource("/foo.txt"), 
+            new ClassPathResource("/bar.txt")
+        ));
         var request = MultipartClientGraphQlRequest.builder()
             .withDocument(doc)
             .withFileVariables(fileVariables)
