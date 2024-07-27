@@ -71,7 +71,7 @@ public class FileController {
                     }
                 }
                 """;
-        Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(
+        Map<String, Object> fileVariables = singletonMap("files", List.of(
             new ClassPathResource("/foo.txt"), 
             new ClassPathResource("/bar.txt")
         ));
@@ -99,7 +99,7 @@ public class FileController {
                 }
             }
             """;
-        Map<String, Object> fileVariables = singletonMap("files", Arrays.asList(
+        Map<String, Object> fileVariables = singletonMap("files", List.of(
             new ClassPathResource("/foo.txt"), 
             new ClassPathResource("/bar.txt")
         ));
