@@ -38,7 +38,7 @@ public class MultipartGraphQlWebFluxAutoconfiguration {
     }
 
     @Bean
-    @Order(1)
+    @Order(-10)
     public RouterFunction<ServerResponse> graphQlMultipartRouterFunction(
         GraphQlProperties properties,
         WebGraphQlHandler webGraphQlHandler,

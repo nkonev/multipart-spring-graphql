@@ -119,6 +119,7 @@ public class AutoconfigurationTest {
     public void testWebflux() {
         var builder = new SpringApplicationBuilder(SimpleWebfluxApp.class, MyController.class);
         builder.properties("server.port=" + PORT_WEBFLUX);
+        builder.properties("logging.level.org.springframework.web=TRACE");
         var ctx = builder.build().run();
 
         var bean = ctx.getBean(SimpleWebfluxApp.class);
@@ -135,6 +136,7 @@ public class AutoconfigurationTest {
     public void testWebMvc() {
         var builder = new SpringApplicationBuilder(SimpleWebMvcApp.class, MyController.class);
         builder.properties("server.port=" + PORT_WEBMVC);
+        builder.properties("logging.level.org.springframework.web=TRACE");
         var ctx = builder.build().run();
 
         var bean = ctx.getBean(SimpleWebMvcApp.class);
