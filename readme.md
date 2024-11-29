@@ -1,4 +1,5 @@
 # Multipart Spring GraphQL
+[![Maven Central](https://img.shields.io/maven-central/v/name.nkonev.multipart-spring-graphql/multipart-spring-graphql)](https://central.sonatype.com/namespace/name.nkonev.multipart-spring-graphql)
 
 Adds [missing](https://github.com/spring-projects/spring-graphql/issues/69) multipart support.
 
