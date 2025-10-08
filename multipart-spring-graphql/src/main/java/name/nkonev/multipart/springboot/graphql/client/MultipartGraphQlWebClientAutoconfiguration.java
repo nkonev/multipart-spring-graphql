@@ -4,7 +4,7 @@ import name.nkonev.multipart.spring.graphql.client.webflux.MultipartGraphQlWebCl
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.*;
-import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
+import org.springframework.boot.webclient.autoconfigure.WebClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
 

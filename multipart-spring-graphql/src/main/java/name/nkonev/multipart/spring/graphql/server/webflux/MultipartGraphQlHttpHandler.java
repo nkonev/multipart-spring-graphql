@@ -37,7 +37,7 @@ public class MultipartGraphQlHttpHandler {
     private final Decoder<?> jsonDecoder;
 
     public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
-        Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL);
+        Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, APPLICATION_GRAPHQL_RESPONSE);
 
     private static final Log logger = LogFactory.getLog(MultipartGraphQlHttpHandler.class);
 

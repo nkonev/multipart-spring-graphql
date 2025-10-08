@@ -4,7 +4,7 @@ import name.nkonev.multipart.spring.graphql.client.webmvc.MultipartGraphQlRestCl
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.*;
-import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
+import org.springframework.boot.restclient.autoconfigure.RestClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestClient;
 

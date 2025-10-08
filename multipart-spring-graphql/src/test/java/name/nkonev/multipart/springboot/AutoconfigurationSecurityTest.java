@@ -54,7 +54,7 @@ public class AutoconfigurationSecurityTest {
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
-                .authorizeRequests((authorizeRequests) ->
+                .authorizeHttpRequests((authorizeRequests) ->
                     authorizeRequests
                         .requestMatchers("/**").hasRole("USER")
                 )

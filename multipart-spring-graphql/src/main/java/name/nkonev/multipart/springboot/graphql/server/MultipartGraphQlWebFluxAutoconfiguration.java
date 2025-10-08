@@ -7,7 +7,7 @@ import name.nkonev.multipart.spring.graphql.server.webflux.MultipartGraphQlHttpH
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.boot.graphql.autoconfigure.GraphQlProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
@@ -44,7 +44,7 @@ public class MultipartGraphQlWebFluxAutoconfiguration {
         WebGraphQlHandler webGraphQlHandler,
         ObjectMapper objectMapper
     ) {
-        String path = properties.getPath();
+        String path = properties.getHttp().getPath();
         RouterFunctions.Builder builder = RouterFunctions.route();
         MultipartGraphQlHttpHandler graphqlMultipartHandler = new MultipartGraphQlHttpHandler(webGraphQlHandler, new Jackson2JsonDecoder(objectMapper));
         builder = builder.POST(path, RequestPredicates.contentType(MULTIPART_FORM_DATA)

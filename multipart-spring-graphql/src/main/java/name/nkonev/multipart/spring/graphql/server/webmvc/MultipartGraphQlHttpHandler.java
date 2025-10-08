@@ -50,7 +50,7 @@ public class MultipartGraphQlHttpHandler {
         };
 
     public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
-        Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL);
+        Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, APPLICATION_GRAPHQL_RESPONSE);
 
     private final IdGenerator idGenerator = new AlternativeJdkIdGenerator();
 
