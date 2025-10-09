@@ -4,6 +4,7 @@
 
     <artifactId>multipart-spring-graphql</artifactId>
     <description>Multipart Spring GraphQL Spring Boot integration</description>
+    <name>multipart-spring-graphql project</name>
 
     <parent>
         <artifactId>multipart-spring-graphql-parent</artifactId>
