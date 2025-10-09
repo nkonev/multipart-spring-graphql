@@ -2,14 +2,12 @@ package name.nkonev.multipart.spring.graphql.server.webmvc;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
-
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -18,10 +16,11 @@ import jakarta.servlet.http.Part;
 import name.nkonev.multipart.spring.graphql.server.support.MultipartVariableMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.core.ResolvableType;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
-import org.springframework.http.converter.GenericHttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.util.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -56,13 +55,13 @@ public class MultipartGraphQlHttpHandler {
 
     private final WebGraphQlHandler graphQlHandler;
 
-    private final GenericHttpMessageConverter genericHttpMessageConverter;
+    private final JacksonJsonHttpMessageConverter httpMessageConverter;
 
-    public MultipartGraphQlHttpHandler(WebGraphQlHandler graphQlHandler, GenericHttpMessageConverter genericHttpMessageConverter) {
+    public MultipartGraphQlHttpHandler(WebGraphQlHandler graphQlHandler, JacksonJsonHttpMessageConverter httpMessageConverter) {
         Assert.notNull(graphQlHandler, "WebGraphQlHandler is required");
-        Assert.notNull(genericHttpMessageConverter, "GenericHttpMessageConverter is required");
+        Assert.notNull(httpMessageConverter, "GenericHttpMessageConverter is required");
         this.graphQlHandler = graphQlHandler;
-        this.genericHttpMessageConverter = genericHttpMessageConverter;
+        this.httpMessageConverter = httpMessageConverter;
     }
 
     public ServerResponse handleMultipartRequest(ServerRequest serverRequest) throws Exception {
@@ -71,7 +70,7 @@ public class MultipartGraphQlHttpHandler {
         Map<String, Object> inputQuery = Optional.ofNullable(this.<Map<String, Object>>deserializePart(
             httpServletRequest,
             "operations",
-            MAP_PARAMETERIZED_TYPE_REF.getType()
+            ResolvableType.forType(MAP_PARAMETERIZED_TYPE_REF.getType())
         )).orElse(new HashMap<>());
 
         final Map<String, Object> queryVariables = getFromMapOrEmpty(inputQuery, "variables");
@@ -82,7 +81,7 @@ public class MultipartGraphQlHttpHandler {
         Map<String, List<String>> fileMappings = Optional.ofNullable(this.<Map<String, List<String>>>deserializePart(
             httpServletRequest,
             "map",
-            LIST_PARAMETERIZED_TYPE_REF.getType()
+            ResolvableType.forType(LIST_PARAMETERIZED_TYPE_REF.getType())
         )).orElse(new HashMap<>());
 
         fileMappings.forEach((String fileKey, List<String> objectPaths) -> {
@@ -171,13 +170,13 @@ public class MultipartGraphQlHttpHandler {
         }
     }
 
-    private <T> T deserializePart(HttpServletRequest httpServletRequest, String name, Type type) {
+    private <T> T deserializePart(HttpServletRequest httpServletRequest, String name, ResolvableType type) {
         try {
             Part part = httpServletRequest.getPart(name);
             if (part == null) {
                 return null;
             }
-            return (T) this.genericHttpMessageConverter.read(type, null, new JsonMultipartInputMessage(part));
+            return (T) this.httpMessageConverter.read(type, new JsonMultipartInputMessage(part), null);
         } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }

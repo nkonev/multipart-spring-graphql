@@ -6,7 +6,7 @@ import name.nkonev.multipart.spring.graphql.client.webflux.MultipartGraphQlWebCl
 import name.nkonev.multipart.spring.graphql.server.webflux.MultipartGraphQlHttpHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.test.web.reactive.server.HttpHandlerConnector;
@@ -86,7 +86,7 @@ public class HttpGraphQlWebClientTests {
     private static class MultipartHttpBuilderSetup extends AbstractBuilderSetup {
 
         public WebClient.Builder initBuilder() {
-            MultipartGraphQlHttpHandler handler = new MultipartGraphQlHttpHandler(webGraphQlHandler(), new Jackson2JsonDecoder());
+            MultipartGraphQlHttpHandler handler = new MultipartGraphQlHttpHandler(webGraphQlHandler(), new JacksonJsonDecoder());
             RouterFunction<ServerResponse> routerFunction = route().POST("/**", handler::handleMultipartRequest).build();
             HttpHandler httpHandler = RouterFunctions.toHttpHandler(routerFunction, HandlerStrategies.withDefaults());
             HttpHandlerConnector connector = new HttpHandlerConnector(httpHandler);

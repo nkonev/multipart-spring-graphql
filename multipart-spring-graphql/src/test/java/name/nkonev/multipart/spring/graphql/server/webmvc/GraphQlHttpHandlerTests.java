@@ -1,9 +1,6 @@
 package name.nkonev.multipart.spring.graphql.server.webmvc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.schema.GraphQLScalarType;
-import jakarta.servlet.ServletException;
 import name.nkonev.multipart.spring.graphql.coercing.webmvc.UploadCoercing;
 import name.nkonev.multipart.spring.graphql.server.utils.GraphQlSetup;
 import org.junit.jupiter.api.Test;
@@ -11,13 +8,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.mock.web.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.function.AsyncServerResponse;
-import org.springframework.web.servlet.function.EntityResponse;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,9 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GraphQlHttpHandlerTests {
 
     private static final List<HttpMessageConverter<?>> MESSAGE_READERS =
-            Collections.singletonList(new MappingJackson2HttpMessageConverter());
+            Collections.singletonList(new JacksonJsonHttpMessageConverter());
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     @Test
     void shouldPassFile() throws Exception {
@@ -132,11 +129,7 @@ public class GraphQlHttpHandlerTests {
     }
 
     private byte[] getJsonArray(Object o) {
-        try {
-            return objectMapper.writeValueAsBytes(o);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return jsonMapper.writeValueAsBytes(o);
     }
 
     private MockHttpServletResponse handleMultipartRequest(

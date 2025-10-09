@@ -10,7 +10,6 @@ import org.springframework.boot.graphql.autoconfigure.GraphQlSourceBuilderCustom
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.graphql.execution.GraphQlSource;
 
 @ConditionalOnWebApplication

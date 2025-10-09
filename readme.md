@@ -9,6 +9,19 @@ Before using you need to see
 
 ## Features
 1. `FilePart` arguments  for `Webflux` reactive [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webflux)
+
+Ensure you have the necessary dependencies:
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-graphql</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-webflux</artifactId>
+</dependency>
+```
+
 ```java
 @Controller
 public class FileController {
@@ -34,6 +47,19 @@ public class FileController {
 ```
 
 2. `MultipartFile` arguments for `WebMVC` servlet [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webmvc)
+
+Ensure you have the necessary dependencies:
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-graphql</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
 ```java
 @Controller
 public class FileController {
@@ -59,6 +85,19 @@ public class FileController {
 ```
 
 3. `WebClient`-based [client](https://github.com/nkonev/multipart-graphql-demo/tree/master/client-webflux)
+
+Ensure you have the necessary dependencies:
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-graphql</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-webclient</artifactId>
+</dependency>
+```
+
 ```java
     @Autowired
     private MultipartGraphQlWebClient httpGraphQlClient;
@@ -87,6 +126,19 @@ public class FileController {
 ```
 
 4. `RestClient`-based [client](https://github.com/nkonev/multipart-graphql-demo/tree/master/client-webmvc)
+
+Ensure you have the necessary dependencies:
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-graphql</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-restclient</artifactId>
+</dependency>
+```
+
 ```java
     @Autowired
     private MultipartGraphQlRestClient httpGraphQlClient;
@@ -135,3 +187,4 @@ public class FileController {
 | 1.3.x                    | 17+  | Spring Boot 3.3.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.3.x  |
 | 1.4.x                    | 17+  | Spring Boot 3.3.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.4.x  |
 | 1.5.x                    | 17+  | Spring Boot 3.4.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.5.x  |
+| 2.0.x                    | 17+  | Spring Boot 4.0.x | https://github.com/nkonev/multipart-graphql-demo/tree/2.0.x  |

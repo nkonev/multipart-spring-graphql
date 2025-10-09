@@ -16,8 +16,6 @@
 
 package name.nkonev.multipart.spring.graphql.client.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.*;
 import org.springframework.graphql.ExecutionGraphQlRequest;
 import org.springframework.graphql.ExecutionGraphQlResponse;
@@ -27,6 +25,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import reactor.core.publisher.Mono;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,7 +39,7 @@ import java.util.function.Consumer;
  */
 public class MockExecutionGraphQlService implements ExecutionGraphQlService {
 
-	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+	private static final JsonMapper OBJECT_MAPPER = new JsonMapper();
 
 
 	@Nullable
@@ -125,12 +124,7 @@ public class MockExecutionGraphQlService implements ExecutionGraphQlService {
 
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> decode(String json) {
-		try {
-			return OBJECT_MAPPER.readValue(json, Map.class);
-		}
-		catch (JsonProcessingException ex) {
-			throw new IllegalStateException(ex);
-		}
+		return OBJECT_MAPPER.readValue(json, Map.class);
 	}
 
 	@Override

@@ -30,9 +30,8 @@ import org.springframework.graphql.execution.*;
 import org.springframework.graphql.server.WebGraphQlHandler;
 import org.springframework.graphql.server.WebGraphQlInterceptor;
 import org.springframework.graphql.server.webflux.GraphQlHttpHandler;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
-import org.springframework.http.converter.GenericHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -55,9 +54,9 @@ public class GraphQlSetup {
 
 	private final List<WebGraphQlInterceptor> interceptors = new ArrayList<>();
 
-    private Decoder<?> jsonDecoder = new Jackson2JsonDecoder();
+    private Decoder<?> jsonDecoder = new JacksonJsonDecoder();
 
-    private GenericHttpMessageConverter genericHttpMessageConverter = new MappingJackson2HttpMessageConverter();
+    private JacksonJsonHttpMessageConverter httpMessageConverter = new JacksonJsonHttpMessageConverter();
 
 	private GraphQlSetup(Resource... schemaResources) {
 		this.graphQlSourceBuilder = GraphQlSource.schemaResourceBuilder().schemaResources(schemaResources);
@@ -121,8 +120,8 @@ public class GraphQlSetup {
         return this;
     }
 
-    public GraphQlSetup genericHttpMessageConverter(GenericHttpMessageConverter genericHttpMessageConverter) {
-        this.genericHttpMessageConverter = genericHttpMessageConverter;
+    public GraphQlSetup genericHttpMessageConverter(JacksonJsonHttpMessageConverter httpMessageConverter) {
+        this.httpMessageConverter = httpMessageConverter;
         return this;
     }
 
@@ -161,7 +160,7 @@ public class GraphQlSetup {
 	}
 
     public name.nkonev.multipart.spring.graphql.server.webmvc.MultipartGraphQlHttpHandler toHttpHandlerMultipart() {
-        return new name.nkonev.multipart.spring.graphql.server.webmvc.MultipartGraphQlHttpHandler(toWebGraphQlHandler(), genericHttpMessageConverter);
+        return new name.nkonev.multipart.spring.graphql.server.webmvc.MultipartGraphQlHttpHandler(toWebGraphQlHandler(), httpMessageConverter);
     }
 
     public GraphQlHttpHandler toHttpHandlerWebFlux() {

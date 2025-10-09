@@ -1,6 +1,5 @@
 package name.nkonev.multipart.springboot.graphql.server;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.schema.GraphQLScalarType;
 import name.nkonev.multipart.spring.graphql.coercing.webflux.UploadCoercing;
 import name.nkonev.multipart.spring.graphql.server.webflux.MultipartGraphQlHttpHandler;
@@ -13,11 +12,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 import org.springframework.graphql.server.WebGraphQlHandler;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import tools.jackson.databind.json.JsonMapper;
 
 import static name.nkonev.multipart.spring.graphql.server.webflux.MultipartGraphQlHttpHandler.SUPPORTED_MEDIA_TYPES;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
@@ -42,11 +42,11 @@ public class MultipartGraphQlWebFluxAutoconfiguration {
     public RouterFunction<ServerResponse> graphQlMultipartRouterFunction(
         GraphQlProperties properties,
         WebGraphQlHandler webGraphQlHandler,
-        ObjectMapper objectMapper
+        JsonMapper jsonMapper
     ) {
         String path = properties.getHttp().getPath();
         RouterFunctions.Builder builder = RouterFunctions.route();
-        MultipartGraphQlHttpHandler graphqlMultipartHandler = new MultipartGraphQlHttpHandler(webGraphQlHandler, new Jackson2JsonDecoder(objectMapper));
+        MultipartGraphQlHttpHandler graphqlMultipartHandler = new MultipartGraphQlHttpHandler(webGraphQlHandler, new JacksonJsonDecoder(jsonMapper));
         builder = builder.POST(path, RequestPredicates.contentType(MULTIPART_FORM_DATA)
             .and(RequestPredicates.accept(SUPPORTED_MEDIA_TYPES.toArray(new MediaType[]{}))), graphqlMultipartHandler::handleMultipartRequest);
         return builder.build();

@@ -14,7 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.EncoderHttpMessageWriter;
 import org.springframework.http.codec.HttpMessageWriter;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.http.codec.json.JacksonJsonEncoder;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
@@ -37,7 +37,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GraphQlHttpHandlerTests {
 
-    private final Jackson2JsonEncoder jackson2JsonEncoder = new Jackson2JsonEncoder();
+    private final JacksonJsonEncoder jackson2JsonEncoder = new JacksonJsonEncoder();
 
     @Test
     void shouldPassFile() {
@@ -167,7 +167,7 @@ public class GraphQlHttpHandlerTests {
 
         @Override
         public List<HttpMessageWriter<?>> messageWriters() {
-            return Collections.singletonList(new EncoderHttpMessageWriter<>(new Jackson2JsonEncoder()));
+            return Collections.singletonList(new EncoderHttpMessageWriter<>(new JacksonJsonEncoder()));
         }
 
         @Override
