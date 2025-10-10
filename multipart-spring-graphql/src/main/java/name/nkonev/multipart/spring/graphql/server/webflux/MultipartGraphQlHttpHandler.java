@@ -21,8 +21,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.util.function.Tuple2;
 
-import static org.springframework.http.MediaType.APPLICATION_GRAPHQL_RESPONSE;
-
 public class MultipartGraphQlHttpHandler {
     private static final ParameterizedTypeReference<Map<String, List<String>>> LIST_PARAMETERIZED_TYPE_REF =
         new ParameterizedTypeReference<Map<String, List<String>>>() {
@@ -32,12 +30,15 @@ public class MultipartGraphQlHttpHandler {
         new ParameterizedTypeReference<Map<String, Object>>() {
         };
 
+    private static final MediaType APPLICATION_GRAPHQL =
+            new MediaType("application", "graphql+json");
+
     private final WebGraphQlHandler graphQlHandler;
 
     private final Decoder<?> jsonDecoder;
 
     public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
-        Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, APPLICATION_GRAPHQL_RESPONSE);
+        Arrays.asList(MediaType.APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, APPLICATION_GRAPHQL);
 
     private static final Log logger = LogFactory.getLog(MultipartGraphQlHttpHandler.class);
 

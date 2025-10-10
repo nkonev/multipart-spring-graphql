@@ -188,3 +188,9 @@ Ensure you have the necessary dependencies:
 | 1.4.x                    | 17+  | Spring Boot 3.3.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.4.x  |
 | 1.5.x                    | 17+  | Spring Boot 3.4.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.5.x  |
 | 2.0.x                    | 17+  | Spring Boot 4.0.x | https://github.com/nkonev/multipart-graphql-demo/tree/2.0.x  |
+
+
+# Migration to Spring Boot 4
+Jackson 2 is being [deprecated](https://spring.io/blog/2025/10/07/introducing-jackson-3-support-in-spring) in Spring Boot 4. 
+In order to reduce maintenance burden only Jackson 3 is supported. 
+Please migrate your application onto Jackson 3 first.

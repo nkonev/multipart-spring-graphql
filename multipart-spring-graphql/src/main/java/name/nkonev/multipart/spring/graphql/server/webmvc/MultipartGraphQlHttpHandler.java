@@ -34,8 +34,6 @@ import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 import org.springframework.web.util.WebUtils;
 
-import static org.springframework.http.MediaType.APPLICATION_GRAPHQL_RESPONSE;
-
 public class MultipartGraphQlHttpHandler {
 
     private static final Log logger = LogFactory.getLog(MultipartGraphQlHttpHandler.class);
@@ -48,8 +46,11 @@ public class MultipartGraphQlHttpHandler {
         new ParameterizedTypeReference<Map<String, List<String>>>() {
         };
 
+    private static final MediaType APPLICATION_GRAPHQL =
+            new MediaType("application", "graphql+json");
+
     public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
-        Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, APPLICATION_GRAPHQL_RESPONSE);
+        Arrays.asList(MediaType.APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, APPLICATION_GRAPHQL);
 
     private final IdGenerator idGenerator = new AlternativeJdkIdGenerator();
 
@@ -59,7 +60,7 @@ public class MultipartGraphQlHttpHandler {
 
     public MultipartGraphQlHttpHandler(WebGraphQlHandler graphQlHandler, JacksonJsonHttpMessageConverter httpMessageConverter) {
         Assert.notNull(graphQlHandler, "WebGraphQlHandler is required");
-        Assert.notNull(httpMessageConverter, "GenericHttpMessageConverter is required");
+        Assert.notNull(httpMessageConverter, "JacksonJsonHttpMessageConverter is required");
         this.graphQlHandler = graphQlHandler;
         this.httpMessageConverter = httpMessageConverter;
     }
