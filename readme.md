@@ -20,6 +20,11 @@ Ensure you have the necessary dependencies:
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-webflux</artifactId>
 </dependency>
+<dependency>
+    <groupId>name.nkonev.multipart-spring-graphql</groupId>
+    <artifactId>multipart-spring-graphql</artifactId>
+    <version>VERSION</version>
+</dependency>
 ```
 
 ```java
@@ -58,6 +63,11 @@ Ensure you have the necessary dependencies:
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
 </dependency>
+<dependency>
+    <groupId>name.nkonev.multipart-spring-graphql</groupId>
+    <artifactId>multipart-spring-graphql</artifactId>
+    <version>VERSION</version>
+</dependency>
 ```
 
 ```java
@@ -95,6 +105,11 @@ Ensure you have the necessary dependencies:
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-webclient</artifactId>
+</dependency>
+<dependency>
+    <groupId>name.nkonev.multipart-spring-graphql</groupId>
+    <artifactId>multipart-spring-graphql</artifactId>
+    <version>VERSION</version>
 </dependency>
 ```
 
@@ -137,6 +152,11 @@ Ensure you have the necessary dependencies:
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-restclient</artifactId>
 </dependency>
+<dependency>
+    <groupId>name.nkonev.multipart-spring-graphql</groupId>
+    <artifactId>multipart-spring-graphql</artifactId>
+    <version>VERSION</version>
+</dependency>
 ```
 
 ```java
@@ -165,17 +185,6 @@ Ensure you have the necessary dependencies:
     } 
 ```
 
-## Download
-
-### Spring Boot Starter
-```xml
-<dependency>
-  <groupId>name.nkonev.multipart-spring-graphql</groupId>
-  <artifactId>multipart-spring-graphql</artifactId>
-  <version>VERSION</version>
-</dependency>
-```
-
 # Compatibility
 
 | multipart-spring-graphql | Java | Spring Boot       | Example                                                      |
@@ -188,7 +197,6 @@ Ensure you have the necessary dependencies:
 | 1.4.x                    | 17+  | Spring Boot 3.3.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.4.x  |
 | 1.5.x                    | 17+  | Spring Boot 3.4.x | https://github.com/nkonev/multipart-graphql-demo/tree/1.5.x  |
 | 2.0.x                    | 17+  | Spring Boot 4.0.x | https://github.com/nkonev/multipart-graphql-demo/tree/2.0.x  |
-
 
 # Migration to Spring Boot 4
 Jackson 2 is being [deprecated](https://spring.io/blog/2025/10/07/introducing-jackson-3-support-in-spring) in Spring Boot 4. 
