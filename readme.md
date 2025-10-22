@@ -61,7 +61,7 @@ Ensure you have the necessary dependencies:
 </dependency>
 <dependency>
     <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-web</artifactId>
+    <artifactId>spring-boot-starter-webmvc</artifactId>
 </dependency>
 <dependency>
     <groupId>name.nkonev.multipart-spring-graphql</groupId>
