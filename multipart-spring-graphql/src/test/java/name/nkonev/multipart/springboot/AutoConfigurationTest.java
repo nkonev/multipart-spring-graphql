@@ -108,12 +108,12 @@ public class AutoConfigurationTest {
     }
 
     @Service
-    public static class SimpleWebfluxApp {
+    public static class SimpleWebFluxApp {
 
         @Autowired
         private MultipartGraphQlWebClient multipartGraphQlWebClient;
 
-        private final Logger logger = LoggerFactory.getLogger(SimpleWebfluxApp.class);
+        private final Logger logger = LoggerFactory.getLogger(SimpleWebFluxApp.class);
 
         public GraphQlResponse performAction() {
             var doc = """
@@ -193,13 +193,13 @@ public class AutoConfigurationTest {
 
     @Test
     public void testWebFlux() {
-        var builder = new SpringApplicationBuilder(WebFluxConfiguration.class, SimpleWebfluxApp.class, MyControllerWebFlux.class);
+        var builder = new SpringApplicationBuilder(WebFluxConfiguration.class, SimpleWebFluxApp.class, MyControllerWebFlux.class);
         builder.properties("server.port=" + PORT_WEBFLUX);
         builder.properties("logging.level.org.springframework.web=TRACE");
         builder.web(WebApplicationType.REACTIVE);
         var ctx = builder.build().run();
 
-        var bean = ctx.getBean(SimpleWebfluxApp.class);
+        var bean = ctx.getBean(SimpleWebFluxApp.class);
         var result = bean.performAction();
 
         Assertions.assertNotNull(result);
