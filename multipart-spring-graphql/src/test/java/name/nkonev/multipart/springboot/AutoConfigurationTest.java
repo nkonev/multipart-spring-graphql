@@ -46,7 +46,7 @@ import java.util.*;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
-public class AutoconfigurationTest {
+public class AutoConfigurationTest {
 
     private static final int PORT_WEBFLUX = 8891;
     private static final int PORT_WEBMVC = 8892;
