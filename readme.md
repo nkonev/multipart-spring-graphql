@@ -8,7 +8,7 @@ Before using you need to see
 * This [explanation](https://www.apollographql.com/blog/backend/file-uploads/file-upload-best-practices/)
 
 ## Features
-1. `FilePart` arguments  for `Webflux` reactive [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webflux)
+1. `FilePart` arguments  for `WebFlux` reactive [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webflux)
 
 Ensure you have the necessary dependencies:
 ```xml
@@ -51,7 +51,7 @@ public class FileController {
 }
 ```
 
-2. `MultipartFile` arguments for `WebMVC` servlet [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webmvc)
+2. `MultipartFile` arguments for `WebMvc` servlet [stack](https://github.com/nkonev/multipart-graphql-demo/tree/master/server-webmvc)
 
 Ensure you have the necessary dependencies:
 ```xml
