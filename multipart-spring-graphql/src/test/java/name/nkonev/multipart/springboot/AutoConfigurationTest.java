@@ -43,7 +43,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
-import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
 public class AutoConfigurationTest {
@@ -114,24 +113,17 @@ public class AutoConfigurationTest {
         private final Logger logger = LoggerFactory.getLogger(SimpleWebFluxApp.class);
 
         public GraphQlResponse performAction() {
-            var doc = """
+            var request = MultipartClientGraphQlRequest.builder()
+                .withDocument("""
                     mutation FileNUpload($files: [Upload!]) {
                         multiFileUpload(files: $files) {
                             id
                         }
                     }
-                """;
-            Map<String, Object> fileVariables = singletonMap(
-                "files", List.of(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
-            );
-            var request = new MultipartClientGraphQlRequest(
-                doc,
-                null,
-                emptyMap(),
-                emptyMap(),
-                emptyMap(),
-                fileVariables
-            );
+                """)
+                .withFileVariables(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
+                .build();
+
             var response = multipartGraphQlWebClient.executeFileUpload("http://localhost:"+ PORT_WEBFLUX +"/graphql", request).block();
             logger.info("Response is {}", response);
             return response;
@@ -168,24 +160,16 @@ public class AutoConfigurationTest {
         private final Logger logger = LoggerFactory.getLogger(SimpleWebMvcApp.class);
 
         public GraphQlResponse performAction() {
-            var doc = """
+            var request = MultipartClientGraphQlRequest.builder()
+                .withDocument("""
                     mutation FileNUpload($files: [Upload!]) {
                         multiFileUpload(files: $files) {
                             id
                         }
                     }
-                """;
-            Map<String, Object> fileVariables = singletonMap(
-                "files", List.of(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
-            );
-            var request = new MultipartClientGraphQlRequest(
-                doc,
-                null,
-                emptyMap(),
-                emptyMap(),
-                emptyMap(),
-                fileVariables
-            );
+                """)
+                .withFileVariables(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
+                .build();
             var response = multipartGraphQlWebClient.executeFileUpload("http://localhost:"+ PORT_WEBMVC +"/graphql", request);
             logger.info("Response is {}", response);
             return response;

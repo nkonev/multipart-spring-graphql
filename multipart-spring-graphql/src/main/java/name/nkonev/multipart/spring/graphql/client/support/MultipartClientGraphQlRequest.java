@@ -1,15 +1,20 @@
 package name.nkonev.multipart.spring.graphql.client.support;
 
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.graphql.client.ClientGraphQlRequest;
 import org.springframework.graphql.support.DefaultGraphQlRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
 
 public class MultipartClientGraphQlRequest extends DefaultGraphQlRequest implements ClientGraphQlRequest {
 
@@ -69,8 +74,17 @@ public class MultipartClientGraphQlRequest extends DefaultGraphQlRequest impleme
             this.attributes = attributes;
             return this;
         }
-        public Builder withFileVariables(Map<String, Object> fileVariables) {
+        public Builder withMapFileVariables(Map<String, Object> fileVariables) {
             this.fileVariables = fileVariables;
+            return this;
+        }
+        /**
+         * Sets file variables
+         * @param fileVariables vararg of something file-like. Example: withFileVariables(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
+         * @return the builder object
+         */
+        public Builder withFileVariables(Object... fileVariables) {
+            this.fileVariables = singletonMap(Constants.PARAM_FILES, Arrays.stream(fileVariables).toList());
             return this;
         }
 
