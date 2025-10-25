@@ -61,7 +61,7 @@ public class MultipartResponseMapGraphQlResponse extends AbstractGraphQlResponse
     @SuppressWarnings("unchecked")
     @Override
     public Map<Object, Object> getExtensions() {
-        return (Map<Object, Object>) this.responseMap.getOrDefault("extensions", Collections.emptyMap());
+        return (Map<Object, Object>) this.responseMap.getOrDefault(MultipartGraphQlConstants.EXTENSIONS, Collections.emptyMap());
     }
 
     @Override
@@ -157,7 +157,7 @@ public class MultipartResponseMapGraphQlResponse extends AbstractGraphQlResponse
         @SuppressWarnings("unchecked")
         @Override
         public Map<String, Object> getExtensions() {
-            return (Map<String, Object>) this.errorMap.getOrDefault("extensions", Collections.emptyMap());
+            return (Map<String, Object>) this.errorMap.getOrDefault(MultipartGraphQlConstants.EXTENSIONS, Collections.emptyMap());
         }
 
         @Override

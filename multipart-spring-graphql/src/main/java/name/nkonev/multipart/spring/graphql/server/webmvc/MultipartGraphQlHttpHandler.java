@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
+import name.nkonev.multipart.spring.graphql.client.support.MultipartGraphQlConstants;
 import name.nkonev.multipart.spring.graphql.server.support.MultipartVariableMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,18 +71,18 @@ public class MultipartGraphQlHttpHandler {
 
         Map<String, Object> inputQuery = Optional.ofNullable(this.<Map<String, Object>>deserializePart(
             httpServletRequest,
-            "operations",
+            MultipartGraphQlConstants.OPERATIONS,
             ResolvableType.forType(MAP_PARAMETERIZED_TYPE_REF.getType())
         )).orElse(new HashMap<>());
 
-        final Map<String, Object> queryVariables = getFromMapOrEmpty(inputQuery, "variables");
-        final Map<String, Object> extensions = getFromMapOrEmpty(inputQuery, "extensions");
+        final Map<String, Object> queryVariables = getFromMapOrEmpty(inputQuery, MultipartGraphQlConstants.VARIABLES);
+        final Map<String, Object> extensions = getFromMapOrEmpty(inputQuery, MultipartGraphQlConstants.EXTENSIONS);
 
         Map<String, MultipartFile> fileParams = readMultipartFiles(httpServletRequest);
 
         Map<String, List<String>> fileMappings = Optional.ofNullable(this.<Map<String, List<String>>>deserializePart(
             httpServletRequest,
-            "map",
+                MultipartGraphQlConstants.MAP,
             ResolvableType.forType(LIST_PARAMETERIZED_TYPE_REF.getType())
         )).orElse(new HashMap<>());
 
@@ -98,14 +99,14 @@ public class MultipartGraphQlHttpHandler {
             }
         });
 
-        String query = (String) inputQuery.get("query");
-        String opName = (String) inputQuery.get("operationName");
+        String query = (String) inputQuery.get(MultipartGraphQlConstants.QUERY);
+        String opName = (String) inputQuery.get(MultipartGraphQlConstants.OPERATION_NAME);
 
         Map<String, Object> body = new HashMap<>();
-        body.put("query", query);
-        body.put("operationName", StringUtils.hasText(opName) ? opName : "");
-        body.put("variables", queryVariables);
-        body.put("extensions", extensions);
+        body.put(MultipartGraphQlConstants.QUERY, query);
+        body.put(MultipartGraphQlConstants.OPERATION_NAME, StringUtils.hasText(opName) ? opName : "");
+        body.put(MultipartGraphQlConstants.VARIABLES, queryVariables);
+        body.put(MultipartGraphQlConstants.EXTENSIONS, extensions);
 
         MultiValueMap<String, Cookie> source = serverRequest.cookies();
         MultiValueMap<String, HttpCookie> target = new LinkedMultiValueMap<>(source.size());

@@ -1,6 +1,7 @@
 package name.nkonev.multipart.spring.graphql.server.webflux;
 
 import graphql.schema.GraphQLScalarType;
+import name.nkonev.multipart.spring.graphql.client.support.MultipartGraphQlConstants;
 import name.nkonev.multipart.spring.graphql.coercing.webflux.UploadCoercing;
 import name.nkonev.multipart.spring.graphql.server.utils.GraphQlSetup;
 import org.junit.jupiter.api.Test;
@@ -122,13 +123,13 @@ public class GraphQlHttpHandlerTests {
 
         Map<String, List<String>> partMappings = new HashMap<>();
         Map<String, Object> operations = new HashMap<>();
-        operations.put("query", body);
+        operations.put(MultipartGraphQlConstants.QUERY, body);
         Map<String, Object> variables = new HashMap<>(requestVariables);
         createFilePartsAndMapping(files, variables, partMappings, (partName, resource) -> addFilePart(parts, partName, (Resource) resource));
-        operations.put("variables", variables);
-        addJsonEncodedPart(parts, "operations", operations);
+        operations.put(MultipartGraphQlConstants.VARIABLES, variables);
+        addJsonEncodedPart(parts, MultipartGraphQlConstants.OPERATIONS, operations);
 
-        addJsonEncodedPart(parts, "map", partMappings);
+        addJsonEncodedPart(parts, MultipartGraphQlConstants.MAP, partMappings);
 
         MockServerRequest serverRequest = MockServerRequest.builder()
                 .exchange(exchange)

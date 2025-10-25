@@ -2,6 +2,7 @@ package name.nkonev.multipart.spring.graphql.server.webflux;
 
 import java.util.*;
 
+import name.nkonev.multipart.spring.graphql.client.support.MultipartGraphQlConstants;
 import name.nkonev.multipart.spring.graphql.server.support.MultipartVariableMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,8 +56,8 @@ public class MultipartGraphQlHttpHandler {
             .flatMap(multipartMultiMap -> {
                 Map<String, Part> allParts = multipartMultiMap.toSingleValueMap();
 
-                Optional<Part> operation = Optional.ofNullable(allParts.get("operations"));
-                Optional<Part> mapParam = Optional.ofNullable(allParts.get("map"));
+                Optional<Part> operation = Optional.ofNullable(allParts.get(MultipartGraphQlConstants.OPERATIONS));
+                Optional<Part> mapParam = Optional.ofNullable(allParts.get(MultipartGraphQlConstants.MAP));
 
                 Decoder<Map<String, Object>> mapJsonDecoder = (Decoder<Map<String, Object>>) jsonDecoder;
                 Decoder<Map<String, List<String>>> listJsonDecoder = (Decoder<Map<String, List<String>>>) jsonDecoder;
@@ -78,8 +79,8 @@ public class MultipartGraphQlHttpHandler {
                         Map<String, Object> inputQuery = objects.getT1();
                         Map<String, List<String>> fileMapInput = objects.getT2();
 
-                        final Map<String, Object> queryVariables = getFromMapOrEmpty(inputQuery, "variables");
-                        final Map<String, Object> extensions = getFromMapOrEmpty(inputQuery, "extensions");
+                        final Map<String, Object> queryVariables = getFromMapOrEmpty(inputQuery, MultipartGraphQlConstants.VARIABLES);
+                        final Map<String, Object> extensions = getFromMapOrEmpty(inputQuery, MultipartGraphQlConstants.EXTENSIONS);
 
                         fileMapInput.forEach((String fileKey, List<String> objectPaths) -> {
                             Part part = allParts.get(fileKey);
@@ -96,14 +97,14 @@ public class MultipartGraphQlHttpHandler {
                             }
                         });
 
-                        String query = (String) inputQuery.get("query");
-                        String opName = (String) inputQuery.get("operationName");
+                        String query = (String) inputQuery.get(MultipartGraphQlConstants.QUERY);
+                        String opName = (String) inputQuery.get(MultipartGraphQlConstants.OPERATION_NAME);
 
                         Map<String, Object> body = new HashMap<>();
-                        body.put("query", query);
-                        body.put("operationName", StringUtils.hasText(opName) ? opName : "");
-                        body.put("variables", queryVariables);
-                        body.put("extensions", extensions);
+                        body.put(MultipartGraphQlConstants.QUERY, query);
+                        body.put(MultipartGraphQlConstants.OPERATION_NAME, StringUtils.hasText(opName) ? opName : "");
+                        body.put(MultipartGraphQlConstants.VARIABLES, queryVariables);
+                        body.put(MultipartGraphQlConstants.EXTENSIONS, extensions);
 
                         WebGraphQlRequest graphQlRequest = new WebGraphQlRequest(
                             serverRequest.uri(), serverRequest.headers().asHttpHeaders(), serverRequest.cookies(),

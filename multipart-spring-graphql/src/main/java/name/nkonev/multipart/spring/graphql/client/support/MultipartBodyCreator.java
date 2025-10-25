@@ -8,8 +8,6 @@ import java.util.function.BiConsumer;
 
 public final class MultipartBodyCreator {
 
-
-
     public static MultiValueMap<String, ?> convertRequestToMultipartData(MultipartClientGraphQlRequest multipartRequest) {
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
 
@@ -17,10 +15,12 @@ public final class MultipartBodyCreator {
         Map<String, Object> operations = multipartRequest.toMap();
         Map<String, Object> variables = new HashMap<>(multipartRequest.getVariables());
         createFilePartsAndMapping(multipartRequest.getFileVariables(), variables, partMappings, builder::part);
-        operations.put("variables", variables);
-        builder.part("operations", operations);
+        operations.put(MultipartGraphQlConstants.VARIABLES, variables);
+        Map<String, Object> extensions = new HashMap<>(multipartRequest.getExtensions());
+        operations.put(MultipartGraphQlConstants.EXTENSIONS, extensions);
+        builder.part(MultipartGraphQlConstants.OPERATIONS, operations);
 
-        builder.part("map", partMappings);
+        builder.part(MultipartGraphQlConstants.MAP, partMappings);
         return builder.build();
     }
 
@@ -28,7 +28,10 @@ public final class MultipartBodyCreator {
         Map<String, ?> fileVariables,
         Map<String, Object> variables,
         Map<String, List<String>> partMappings,
-        BiConsumer<String, Object> partConsumer) {
+        BiConsumer<String, Object> partConsumer
+    ) {
+        final String uploadPartPrefix = "uploadPart";
+
         int partNumber = 0;
         for (Map.Entry<String, ?> entry : fileVariables.entrySet()) {
             Object resource = entry.getValue();
@@ -38,20 +41,20 @@ public final class MultipartBodyCreator {
                 int inMappingNumber = 0;
                 for (Object fileResourceItem : (Collection) resource) {
                     placeholders.add(null);
-                    String partName = "uploadPart" + partNumber;
+                    String partName = uploadPartPrefix + partNumber;
                     partConsumer.accept(partName, fileResourceItem);
                     partMappings.put(partName, Collections.singletonList(
-                        "variables." + variableName + "." + inMappingNumber
+                        MultipartGraphQlConstants.VARIABLES+"." + variableName + "." + inMappingNumber
                     ));
                     partNumber++;
                     inMappingNumber++;
                 }
                 variables.put(variableName, placeholders);
             } else {
-                String partName = "uploadPart" + partNumber;
+                String partName = uploadPartPrefix + partNumber;
                 partConsumer.accept(partName, resource);
                 variables.put(variableName, null);
-                partMappings.put(partName, Collections.singletonList("variables." + variableName));
+                partMappings.put(partName, Collections.singletonList(MultipartGraphQlConstants.VARIABLES+"." + variableName));
                 partNumber++;
             }
         }

@@ -1,15 +1,12 @@
 package name.nkonev.multipart.spring.graphql.client.support;
 
 
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.graphql.client.ClientGraphQlRequest;
 import org.springframework.graphql.support.DefaultGraphQlRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -84,7 +81,7 @@ public class MultipartClientGraphQlRequest extends DefaultGraphQlRequest impleme
          * @return the builder object
          */
         public Builder withFileVariables(Object... fileVariables) {
-            this.fileVariables = singletonMap(Constants.PARAM_FILES, Arrays.stream(fileVariables).toList());
+            this.fileVariables = singletonMap(MultipartGraphQlConstants.VARIABLE_NAME_FILES, Arrays.stream(fileVariables).toList());
             return this;
         }
 

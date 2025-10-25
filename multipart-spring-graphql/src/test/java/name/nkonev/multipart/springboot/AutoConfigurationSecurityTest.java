@@ -1,5 +1,6 @@
 package name.nkonev.multipart.springboot;
 
+import name.nkonev.multipart.spring.graphql.client.support.MultipartGraphQlConstants;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,8 +110,8 @@ public class AutoConfigurationSecurityTest {
         final var resource2 = new ClassPathResource("/bar.txt");
         final var filePart1 = new MockMultipartFile("0", "foo.txt", "application/octet-stream", resource1.getContentAsByteArray());
         final var filePart2 = new MockMultipartFile("1", "bar.txt", "application/octet-stream", resource2.getContentAsByteArray());
-        final var operationsPart = new MockPart("operations", operations.getBytes());
-        final var variablesPart = new MockPart("map", variables.getBytes());
+        final var operationsPart = new MockPart(MultipartGraphQlConstants.OPERATIONS, operations.getBytes());
+        final var variablesPart = new MockPart(MultipartGraphQlConstants.MAP, variables.getBytes());
 
 
 

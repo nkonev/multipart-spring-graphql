@@ -1,5 +1,6 @@
 package name.nkonev.multipart.spring.graphql.client;
 
+import name.nkonev.multipart.spring.graphql.client.support.MultipartGraphQlConstants;
 import name.nkonev.multipart.spring.graphql.client.support.MultipartBodyCreator;
 import name.nkonev.multipart.spring.graphql.client.support.MultipartClientGraphQlRequest;
 import org.junit.jupiter.api.Assertions;
@@ -26,18 +27,18 @@ public class MultipartBodyCreatorTests {
         );
         MultiValueMap<String, ?> stringMultiValueMap = MultipartBodyCreator.convertRequestToMultipartData(multipartClientGraphQlRequest);
 
-        HttpEntity<?> operations = (HttpEntity<?>) stringMultiValueMap.get("operations").get(0);
+        HttpEntity<?> operations = (HttpEntity<?>) stringMultiValueMap.get(MultipartGraphQlConstants.OPERATIONS).get(0);
         Map<String, Object> operationsBody = (Map<String, Object>) operations.getBody();
-        Assertions.assertEquals("mockDoc", operationsBody.get("query"));
-        Assertions.assertEquals("opName", operationsBody.get("operationName"));
-        Map<String, Object> resultVariables = (Map<String, Object>) operationsBody.get("variables");
+        Assertions.assertEquals("mockDoc", operationsBody.get(MultipartGraphQlConstants.QUERY));
+        Assertions.assertEquals("opName", operationsBody.get(MultipartGraphQlConstants.OPERATION_NAME));
+        Map<String, Object> resultVariables = (Map<String, Object>) operationsBody.get(MultipartGraphQlConstants.VARIABLES);
         Assertions.assertTrue(resultVariables.containsKey("fileInput"));
         Assertions.assertNull(resultVariables.get("fileInput"));
         Assertions.assertEquals("itsValue", resultVariables.get("existingVar"));
 
-        HttpEntity<?> mappings = (HttpEntity<?>) stringMultiValueMap.get("map").get(0);
+        HttpEntity<?> mappings = (HttpEntity<?>) stringMultiValueMap.get(MultipartGraphQlConstants.MAP).get(0);
         Map<String, Object> mappingsBody = (Map<String, Object>) mappings.getBody();
-        Assertions.assertTrue((((List<String>)mappingsBody.get("uploadPart0")).containsAll(Collections.singletonList("variables.fileInput"))));
+        Assertions.assertTrue((((List<String>)mappingsBody.get("uploadPart0")).containsAll(Collections.singletonList(MultipartGraphQlConstants.VARIABLES+".fileInput"))));
 
         HttpEntity<?> filePart = (HttpEntity<?>) stringMultiValueMap.get("uploadPart0").get(0);
         Assertions.assertTrue(filePart.getBody() instanceof ClassPathResource);
@@ -61,11 +62,11 @@ public class MultipartBodyCreatorTests {
         );
         MultiValueMap<String, ?> stringMultiValueMap = MultipartBodyCreator.convertRequestToMultipartData(multipartClientGraphQlRequest);
 
-        HttpEntity<?> operations = (HttpEntity<?>) stringMultiValueMap.get("operations").get(0);
+        HttpEntity<?> operations = (HttpEntity<?>) stringMultiValueMap.get(MultipartGraphQlConstants.OPERATIONS).get(0);
         Map<String, Object> operationsBody = (Map<String, Object>) operations.getBody();
-        Assertions.assertEquals("mockDoc", operationsBody.get("query"));
-        Assertions.assertEquals("opName", operationsBody.get("operationName"));
-        Map<String, Object> resultVariables = (Map<String, Object>) operationsBody.get("variables");
+        Assertions.assertEquals("mockDoc", operationsBody.get(MultipartGraphQlConstants.QUERY));
+        Assertions.assertEquals("opName", operationsBody.get(MultipartGraphQlConstants.OPERATION_NAME));
+        Map<String, Object> resultVariables = (Map<String, Object>) operationsBody.get(MultipartGraphQlConstants.VARIABLES);
         Assertions.assertTrue(resultVariables.containsKey("fileInput"));
         List<Object> fileInputValues = (List<Object>) resultVariables.get("fileInput");
         Assertions.assertNotNull(fileInputValues);
@@ -75,10 +76,10 @@ public class MultipartBodyCreatorTests {
 
         Assertions.assertEquals("itsValue", resultVariables.get("existingVar"));
 
-        HttpEntity<?> mappings = (HttpEntity<?>) stringMultiValueMap.get("map").get(0);
+        HttpEntity<?> mappings = (HttpEntity<?>) stringMultiValueMap.get(MultipartGraphQlConstants.MAP).get(0);
         Map<String, Object> mappingsBody = (Map<String, Object>) mappings.getBody();
-        Assertions.assertTrue((((List<String>)mappingsBody.get("uploadPart0")).containsAll(Collections.singletonList("variables.fileInput.0"))));
-        Assertions.assertTrue((((List<String>)mappingsBody.get("uploadPart1")).containsAll(Collections.singletonList("variables.fileInput.1"))));
+        Assertions.assertTrue((((List<String>)mappingsBody.get("uploadPart0")).containsAll(Collections.singletonList(MultipartGraphQlConstants.VARIABLES+".fileInput.0"))));
+        Assertions.assertTrue((((List<String>)mappingsBody.get("uploadPart1")).containsAll(Collections.singletonList(MultipartGraphQlConstants.VARIABLES+".fileInput.1"))));
 
         HttpEntity<?> filePart0 = (HttpEntity<?>) stringMultiValueMap.get("uploadPart0").get(0);
         Assertions.assertTrue(filePart0.getBody() instanceof ClassPathResource);

@@ -1,5 +1,7 @@
 package name.nkonev.multipart.spring.graphql.server.support;
 
+import name.nkonev.multipart.spring.graphql.client.support.MultipartGraphQlConstants;
+
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -43,7 +45,7 @@ public class MultipartVariableMapper {
 
         if (segments.length < 2) {
             throw new RuntimeException("object-path in map must have at least two segments");
-        } else if (!"variables".equals(segments[0])) {
+        } else if (!MultipartGraphQlConstants.VARIABLES.equals(segments[0])) {
             throw new RuntimeException("can only map into variables");
         }
 
