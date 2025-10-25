@@ -84,9 +84,6 @@ public class AutoConfigurationTest {
     }
 
     @ImportAutoConfiguration(classes = {
-            // common
-            GraphQlAutoConfiguration.class,
-
             // server
             NettyReactiveWebServerAutoConfiguration.class,
             ReactorAutoConfiguration.class,
@@ -94,6 +91,7 @@ public class AutoConfigurationTest {
             HttpHandlerAutoConfiguration.class,
             JacksonAutoConfiguration.class,
             ReactiveMultipartAutoConfiguration.class,
+            GraphQlAutoConfiguration.class,
             GraphQlWebFluxAutoConfiguration.class,
             MultipartGraphQlWebFluxAutoconfiguration.class,
             SchemaAutoconfiguration.class,
@@ -141,17 +139,20 @@ public class AutoConfigurationTest {
     }
 
     @ImportAutoConfiguration(classes = {
+            // server
             TomcatServletWebServerAutoConfiguration.class,
             DispatcherServletAutoConfiguration.class,
             WebMvcAutoConfiguration.class,
             JacksonAutoConfiguration.class,
-            RestClientAutoConfiguration.class,
             MultipartAutoConfiguration.class,
             GraphQlAutoConfiguration.class,
             GraphQlWebMvcAutoConfiguration.class,
-            MultipartGraphQlRestClientAutoconfiguration.class,
             MultipartGraphQlWebMvcAutoconfiguration.class,
             SchemaAutoconfiguration.class,
+
+            // client
+            RestClientAutoConfiguration.class,
+            MultipartGraphQlRestClientAutoconfiguration.class,
     })
     @Configuration
     public static class WebMvcConfiguration {
