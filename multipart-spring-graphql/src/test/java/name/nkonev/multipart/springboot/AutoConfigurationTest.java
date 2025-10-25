@@ -121,7 +121,7 @@ public class AutoConfigurationTest {
                         }
                     }
                 """)
-                .withFileVariables(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
+                .withFileVariables(singletonMap("files", List.of(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))))
                 .build();
 
             var response = multipartGraphQlWebClient.executeFileUpload("http://localhost:"+ PORT_WEBFLUX +"/graphql", request).block();
@@ -168,7 +168,7 @@ public class AutoConfigurationTest {
                         }
                     }
                 """)
-                .withFileVariables(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
+                .withFileVariables(singletonMap("files", List.of(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))))
                 .build();
             var response = multipartGraphQlWebClient.executeFileUpload("http://localhost:"+ PORT_WEBMVC +"/graphql", request);
             logger.info("Response is {}", response);

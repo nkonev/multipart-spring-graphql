@@ -1,8 +1,6 @@
 package name.nkonev.multipart.spring.graphql.client.support;
 
 public abstract class MultipartGraphQlConstants {
-    public static final String VARIABLE_NAME_FILES = "files";
-
     public static final String VARIABLES = "variables";
     public static final String QUERY = "query";
     public static final String OPERATIONS = "operations";

@@ -127,7 +127,7 @@ Ensure you have the necessary dependencies:
                     }
                 }
             """)
-            .withFileVariables(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
+            .withFileVariables(singletonMap("files", List.of(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))))
             .build();
         var response = httpGraphQlClient.executeFileUpload("http://localhost:8899/graphql", request).block();
         LOGGER.info("Response is {}", response);
@@ -167,7 +167,7 @@ Ensure you have the necessary dependencies:
                     }
                 }
             """)
-            .withFileVariables(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))
+            .withFileVariables(singletonMap("files", List.of(new ClassPathResource("/foo.txt"), new ClassPathResource("/bar.txt"))))
             .build();
         var response = httpGraphQlClient.executeFileUpload("http://localhost:8889/graphql", request);
         LOGGER.info("Response is {}", response);
